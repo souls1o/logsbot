@@ -1,25 +1,20 @@
 import os
+from db import test_connection, create_or_update_user
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
 from keep_alive import keep_alive
+
 keep_alive()
+test_connection()
 
-client = MongoClient(os.environ["MONGO_URI"], server_api=ServerApi('1'))
-db = client["db"]
-users = db["users"]
-logs = db["logs"]
+parse_mode = "MarkdownV2"
 
-try:
-    client.admin.command=('ping')
-    print("[+] MongoDB has successfully connected.")
-except Exception as e:
-    print("[-] MongoDB has failed connecting.")
-    print(e)
-
+# MAIN COMMANDS #
 async def start(update: Update, context: CallbackContext) -> None:
     chat_id = get_chat_id(update)
+    
 
 # MAIN FUNCTIONS #
 def get_chat_id(update: Update) -> int:
