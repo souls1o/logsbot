@@ -69,7 +69,7 @@ def create_or_update_user(user_id, user_data):
         print(f"[-] Failed to create or update user: {e}")
         return False
     
-def create_info(info_id, title, description, category):):
+def create_info(info_id, title, description, category):
     info_data = {
         "info_id": info_id,
         "title": title,
