@@ -1,19 +1,32 @@
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from datetime import datetime
 
 client = MongoClient(os.environ["MONGO_URI"], server_api=ServerApi('1'))
 db = client["db"]
 users = db["users"]
-logs = db["logs"]
+orders = db["orders"]
+infos = db["infos"]
 
-def test_db_connection():
+def test_connection():
     try:
         client.admin.command('ping')
         print("[+] MongoDB has successfully connected.")
     except Exception as e:
         print("[-] MongoDB has failed to connect.")
         print(e)
+        
+def create_user(user_id):
+    user_data = {
+        "user_id": user_id,
+        "timestamp": datetime.utcnow()
+    }
+    try:
+        users.insert_one(user_data)
+        print(f'[+] User ')
+    except Exception as e:
+        print(f"[-] Failed to create user: {e}")
         
 def get_user(user_id):
     try:
@@ -56,16 +69,16 @@ def create_or_update_user(user_id, user_data):
         print(f"[-] Failed to create or update user: {e}")
         return False
     
-def create_log(log_id, title, description, category):):
-    log_data = {
-        "log_id": log_id,
+def create_info(info_id, title, description, category):):
+    info_data = {
+        "info_id": info_id,
         "title": title,
         "desc": description,
         "category": category,
         "timestamp": datetime.utcnow()
     }
     try:
-        logs.insert_one(log_data)
-        print(f'[+] Log created with title "{title}"')
+        infos.insert_one(info_data)
+        print(f'[+] Info {info_id} created with title "{title}" in {category}')
     except Exception as e:
-        print(f"[-] Failed to create log: {e}")
+        print(f"[-] Failed to create info: {e}")
