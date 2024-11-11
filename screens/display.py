@@ -36,18 +36,16 @@ async def show_account_logs(update, context):
         category = log.get("category")
         price = log.get("price", float('inf'))
 
-        # Update only if a lower price is found
         if product and price < product_info[product]["price"]:
             product_info[product]["price"] = price
             product_info[product]["category"] = category
 
-    # Format each product with its category emoji, lowest price, and bold text
     product_lines = []
     for product, info in product_info.items():
         emoji = get_emoji(info["category"])
         price = info["price"]
         product = filter_text(product)
-        product_lines.append(f"> {emoji} *{product}*\n> _💵 Starting at ${price:.2f}..._")
+        product_lines.append(f"{emoji} *{product}*\n> *_💲 __{price:.2f}___*")
         
     products_text = "\n".join(product_lines).replace(".", "\\.")
     text = f"📲 *Account Logs*\n\n{products_text}"
