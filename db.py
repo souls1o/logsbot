@@ -31,7 +31,7 @@ def create_user(user_id):
     except Exception as e:
         print(f"[-] Failed to create user: {e}")
         
-def create_log(name, price, product, category):
+def create_log(name, price, product, category, type):
     log_id = generate_id()
     
     log_data = {
@@ -40,6 +40,7 @@ def create_log(name, price, product, category):
         "price": price,
         "product": product,
         "category": category,
+        "type": type,
         "logs": [],
         "timestamp": datetime.utcnow()
     }
