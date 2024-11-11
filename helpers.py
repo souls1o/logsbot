@@ -10,3 +10,12 @@ def filter_text(text: str):
     
 def generate_id():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
+    
+def get_emoji(category):
+    category_emojis = {
+        "Food": "🍔",
+        "Entertainment": "🎬",
+        "Shopping": "🛍️"
+    }
+    
+    return category_emojis.get(category, "❓")
