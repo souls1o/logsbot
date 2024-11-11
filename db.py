@@ -56,7 +56,14 @@ def get_user(user_id):
         return users.find_one({"user_id": user_id})
     except Exception as e:
         print(f"[-] Failed to retrieve user: {e}")
-        return None
+        return Non
+        
+def get_all_users():
+    try:
+        return list(users.find())
+    except Exception as e:
+        print(f"[-] Failed to retrieve all users: {e}")
+        return []
         
 def update_user(user_id, user_data):
     try:
