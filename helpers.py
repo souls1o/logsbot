@@ -1,3 +1,6 @@
+import random
+import string
+
 def get_chat_id(update: Update) -> int:
     return update.message.chat_id if update.message else update.callback_query.message.chat_id
 
