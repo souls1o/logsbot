@@ -13,8 +13,10 @@ async def show_main_menu(update, context):
     
 async def show_menu(update, context):
     chat_id = update.effective_chat.id
-    reply_markup = create_menu_keyboard(len(get_all_logs()), 0)
     
+    create_log("$15-$20 Balance", 5, "Subway", "Food", "account")
+    
+    reply_markup = create_menu_keyboard(len(get_all_logs()), 0)
     text = "🚀 *Menu*"
     await context.bot.send_message(chat_id, text, parse_mode, reply_markup)
     
