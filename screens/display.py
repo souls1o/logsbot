@@ -49,7 +49,7 @@ async def show_account_logs(update, context):
         product_lines.append(f"> {emoji} *{product}*\n> _💵 Starting at ${price:.2f}\\.\\.\\.")
         
     products_text = "\n".join(product_lines)
-    text = "📲 *Account Logs*\n\n{products_text}"
+    text = f"📲 *Account Logs*\n\n{products_text}"
     
     reply_markup = create_account_logs_keyboard()
     await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
