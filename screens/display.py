@@ -18,7 +18,7 @@ async def show_menu(update, context):
     
     reply_markup = create_menu_keyboard(len(get_all_logs()), 0)
     text = "🚀 *Menu*"
-    await context.bot.send_message(chat_id, text, parse_mode, reply_markup)
+    await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
     
 async def show_account(update, context):
     chat_id = update.effective_chat.id
@@ -26,4 +26,4 @@ async def show_account(update, context):
     
     reply_markup = create_account_keyboard()
     text = "👤 *Account*"
-    await context.bot.send_message(chat_id, text, parse_mode, reply_markup)
+    await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
