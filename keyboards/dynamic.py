@@ -14,6 +14,14 @@ def create_menu_keyboard(logs_count, banks_count):
     ]
     return InlineKeyboardMarkup(keyboard)
     
+def create_account_logs_keyboard():
+    keyboard = [
+        [InlineKeyboardButton("📂 Orders", callback_data="orders")],
+        [InlineKeyboardButton("💳 Add Funds", callback_data="deposit")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
+    ]
+    return InlineKeyboardMarkup(keyboard)
+    
 def create_account_keyboard():
     keyboard = [
         [InlineKeyboardButton("📂 Orders", callback_data="orders")],
