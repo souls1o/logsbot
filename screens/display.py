@@ -1,5 +1,5 @@
 from collections import defaultdict
-from helpers import get_emoji
+from helpers import filter_text, get_emoji
 from db import create_user, get_all_users, get_user, create_log, get_all_logs
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard
 
@@ -46,7 +46,8 @@ async def show_account_logs(update, context):
     for product, info in product_info.items():
         emoji = get_emoji(info["category"])
         price = info["price"]
-        product_lines.append(f"> {emoji} *{product}*\n> _💵 Starting at ${price:.2f}\\.\\.\\.")
+        product = filter_text(product)
+        product_lines.append(f"> {emoji} *{product}*\n> _💵 Starting at ${price:.2f}\\.\\.\\._")
         
     products_text = "\n".join(product_lines)
     text = f"📲 *Account Logs*\n\n{products_text}"
