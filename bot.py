@@ -15,8 +15,8 @@ parse_mode = "MarkdownV2"
 def main() -> None:
     app = Application.builder().token(os.environ["TELEGRAM_BOT_TOKEN"]).build()
     
-    application.add_handler(start.get_handler())
-    application.add_handler(main_menu.get_handler())
+    app.add_handler(start.get_handler())
+    app.add_handler(main_menu.get_handler())
     
     app.run_polling()
 
