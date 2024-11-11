@@ -1,3 +1,4 @@
+from db import create_user, get_all_users, get_user, get_all_logs, get_log
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard 
 
 parse_mode = "MarkdownV2"
@@ -19,7 +20,8 @@ async def show_menu(update, context):
     
 async def show_account(update, context):
     chat_id = update.effective_chat.id
-    reply_markup = create_menu_keyboard()
+    user_id = update.effective_user.id
     
+    reply_markup = create_account_keyboard()
     text = "👤 *Account*"
     await context.bot.send_message(chat_id, text, parse_mode, reply_markup)
