@@ -47,9 +47,9 @@ async def show_account_logs(update, context):
         emoji = get_emoji(info["category"])
         price = info["price"]
         product = filter_text(product)
-        product_lines.append(f"> {emoji} *{product}*\n> _💵 Starting at ${price:.2f}\\.\\.\\._")
+        product_lines.append(f"> {emoji} *{product}*\n> _💵 Starting at ${price:.2f}..._")
         
-    products_text = "\n".join(product_lines)
+    products_text = "\n".join(product_lines).replace(".", "\\.")
     text = f"📲 *Account Logs*\n\n{products_text}"
     
     reply_markup = create_account_logs_keyboard()
