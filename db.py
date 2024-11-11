@@ -1,11 +1,13 @@
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from helpers import generate_id
 from datetime import datetime
 
 client = MongoClient(os.environ["MONGO_URI"], server_api=ServerApi('1'))
 db = client["db"]
 users = db["users"]
+logs = db["logs"]
 orders = db["orders"]
 infos = db["infos"]
 
@@ -20,6 +22,7 @@ def test_connection():
 def create_user(user_id):
     user_data = {
         "user_id": user_id,
+        "orders": [],
         "timestamp": datetime.utcnow()
     }
     try:
@@ -27,6 +30,25 @@ def create_user(user_id):
         print(f'[+] User ')
     except Exception as e:
         print(f"[-] Failed to create user: {e}")
+        
+def create_log(name, price, product, category):
+    log_id = generate_id()
+    
+    log_data = {
+        "log_id": log_id,
+        "name": name,
+        "price": price,
+        "product": product,
+        "category": category,
+        "logs": [],
+        "timestamp": datetime.utcnow()
+    }
+    try:
+        logs.insert_one(log_data)
+        print(f'[+] Log created: {log_id} ')
+    except Exception as e:
+        print(f"[-] Failed to create log: {e}")
+
         
 def get_user(user_id):
     try:
@@ -46,11 +68,11 @@ def update_user(user_id, user_data):
         print(f"[-] Failed to update user: {e}")
         return False
         
-def get_all_users():
+def get_all_logs():
     try:
-        return list(users.find())
+        return list(logs.find())
     except Exception as e:
-        print(f"[-] Failed to retrieve all users: {e}")
+        print(f"[-] Failed to retrieve all logs: {e}")
         return []
 
 def create_or_update_user(user_id, user_data):
