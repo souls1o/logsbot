@@ -4,7 +4,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
-from handlers import start, menu, main_menu
+from handlers import start, menu
 from keep_alive import keep_alive
 
 keep_alive()
@@ -16,7 +16,6 @@ def main() -> None:
     app = Application.builder().token(os.environ["TELEGRAM_BOT_TOKEN"]).build()
     
     app.add_handler(start.get_handler())
-    app.add_handler(main_menu.get_handler())
     app.add_handler(menu.get_handler())
     
     app.run_polling()
