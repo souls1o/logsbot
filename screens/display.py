@@ -40,17 +40,21 @@ async def show_account_logs(update, context):
             product_info[product]["price"] = price
             product_info[product]["category"] = category
 
+    products_with_emojis = []
     product_lines = []
     for product, info in product_info.items():
         emoji = get_emoji(info["category"])
         price = info["price"]
-        product = filter_text(product)
-        product_lines.append(f"{emoji} *{product}*\n> *_💲 __{price:.2f}___*")
+        product_text = f"{emoji} *{product}*\n💲*__{price:.2f}__*"
+        
+        product_lines.append(product_text)
+        
+        products_with_emojis.append(f"{emoji} {product}")
         
     products_text = "\n".join(product_lines).replace(".", "\\.")
     text = f"📲 *Account Logs*\n\n{products_text}"
     
-    reply_markup = create_account_logs_keyboard()
+    reply_markup = create_account_logs_keyboard(products_with_emojis)
     await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
     
 async def show_account(update, context):
