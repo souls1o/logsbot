@@ -3,3 +3,6 @@ def get_chat_id(update: Update) -> int:
 
 def filter_text(text: str):
     return text.replace('_', '\\_').replace('-', '\\-').replace('.', '\\.').replace('!', '\\!').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]').replace('=', '\\=').replace('<', '\\<').replace('>', '\\>')
+    
+def generate_id():
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
