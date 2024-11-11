@@ -30,6 +30,8 @@ async def show_account_logs(update, context):
     logs = get_all_logs()
 
     product_info = defaultdict(lambda: {"price": float('inf'), "category": None})
+    text = "🚀 *account logs*"
+    await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
 
     for log in logs:
         product = log.get("product")
