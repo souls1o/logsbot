@@ -10,6 +10,8 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_menu(update, context)
     elif query.data == "account":
         await show_account(update, context)
+    elif query.data == "logs_account":
+        await show_account_logs(update, context)
     
 def get_handler():
     return CallbackQueryHandler(main_menu_handler)
