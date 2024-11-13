@@ -12,7 +12,7 @@ async def show_main_menu(update, context):
     
     text = f"🔱 *Welcome to __Poseidon Logs__, _{user}_\\!* 🔱\n\n> *ℹ️ Poseidon is the \\#1 and only bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n🔗 *Channel: t\\.me/sheloveosamaa*\n📞 *Support: @fwsouls*"
     
-    if context.user_data["message_id"]:
+    if context.user_data.get("message_id"):
         await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     else:
         message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
