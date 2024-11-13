@@ -10,13 +10,14 @@ def create_main_menu_keyboard():
 def create_menu_keyboard(logs_count, banks_count):
     keyboard = [
         [InlineKeyboardButton(f"📲 Account Logs ({logs_count})", callback_data="logs_account")],
-        [InlineKeyboardButton(f"🏦 Bank Logs ({banks_count})", callback_data="logs_bank")]
+        [InlineKeyboardButton(f"🏦 Bank Logs ({banks_count})", callback_data="logs_bank")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
     ]
     return InlineKeyboardMarkup(keyboard)
     
 def create_account_logs_keyboard(products):
     keyboard = [
-        [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
+        [InlineKeyboardButton("⬅️ Back", callback_data="menu")]
     ]
     
     for product in products:
@@ -29,5 +30,14 @@ def create_account_keyboard():
         [InlineKeyboardButton("📂 Orders", callback_data="orders")],
         [InlineKeyboardButton("💳 Add Funds", callback_data="deposit")],
         [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
+    ]
+    return InlineKeyboardMarkup(keyboard)
+    
+def create_deposit_keyboard():
+    keyboard = [
+        [InlineKeyboardButton("BTC", callback_data="deposit_btc")],
+        [InlineKeyboardButton("ETH", callback_data="deposit_eth")],
+        [InlineKeyboardButton("LTC", callback_data="deposit_ltc")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="account")]
     ]
     return InlineKeyboardMarkup(keyboard)
