@@ -47,7 +47,7 @@ async def show_account_logs(update, context):
     for product, info in product_info.items():
         emoji = get_emoji(info["category"])
         price = info["price"]
-        product_text = f"> \\[{emoji}\\] *{product} \\| 💲_{price:.2f}_*\\+"
+        product_text = f"> *\\[{emoji}\\] {product} \\| $_{price:.2f}_*\\+"
         
         product_lines.append(product_text)
         
