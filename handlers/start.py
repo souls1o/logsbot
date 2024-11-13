@@ -3,6 +3,7 @@ from telegram.ext import CommandHandler, ContextTypes
 from screens.display import show_main_menu
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data.clear()
     await show_main_menu(update, context)
 
 def get_handler():
