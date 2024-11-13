@@ -23,7 +23,7 @@ async def show_menu(update, context):
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
     text = "🚀 *Menu*"
-    await context.bot.edit_message(chat_id, message_id, text, parse_mode, reply_markup=reply_markup)
+    await context.bot.edit_message_text(chat_id, message_id, text, parse_mode, reply_markup=reply_markup)
     
 async def show_account_logs(update, context):
     chat_id = update.effective_chat.id
@@ -58,7 +58,7 @@ async def show_account_logs(update, context):
     text = f"📲 *Account Logs*\n\n{products_text}"
     
     reply_markup = create_account_logs_keyboard(products_with_emojis)
-    await context.bot.edit_message(chat_id, message_id, text, parse_mode, reply_markup=reply_markup)
+    await context.bot.edit_message_text(chat_id, message_id, text, parse_mode, reply_markup=reply_markup)
     
 async def show_account(update, context):
     chat_id = update.effective_chat.id
@@ -67,4 +67,4 @@ async def show_account(update, context):
     
     reply_markup = create_account_keyboard()
     text = "👤 *Account*"
-    await context.bot.edit_message(chat_id, message_id, text, parse_mode, reply_markup=reply_markup)
+    await context.bot.edit_message_text(chat_id, message_id, text, parse_mode, reply_markup=reply_markup)
