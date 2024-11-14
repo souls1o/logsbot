@@ -27,7 +27,7 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    # create_log("$15-$20 Balance", 7.00, 4.00, "FA (Hotmail)", "FA", "account")
+    create_log("Kraken FA", 7.00, 4.00, "FA (Hotmail)", "FA", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
