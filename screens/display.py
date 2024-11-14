@@ -27,7 +27,7 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    # create_log("$15-$20 Balance", 5, 3, "Subway", "Food", "account")
+    # create_log("$15-$20 Balance", 7.00, 4.00, "FA (Hotmail)", "FA", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
@@ -56,6 +56,7 @@ async def show_account_logs(update, context):
     for product, info in product_info.items():
         emoji = get_emoji(info["category"])
         price = info["price"]
+        product = filter_text(product)
         product_text = f"> *\\[{emoji}\\] {product} \\| $_{price:.2f}_*\\+"
         
         product_lines.append(product_text)
