@@ -76,7 +76,14 @@ def get_user(user_id):
         return users.find_one({"user_id": user_id})
     except Exception as e:
         print(f"[-] Failed to retrieve user: {e}")
-        return Non
+        return None
+        
+def get_order(order_id):
+    try:
+        return orders.find_one({"order_id": order_id})
+    except Exception as e:
+        print(f"[-] Failed to retrieve order: {e}")
+        return None
         
 def get_all_users():
     try:
