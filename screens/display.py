@@ -1,6 +1,6 @@
 from collections import defaultdict
 from helpers import filter_text, get_emoji
-from db import create_user, get_all_users, get_user, create_log, get_all_logs, create_order, get_order, get_all_orders
+from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard
 
 parse_mode = "MarkdownV2"
@@ -72,8 +72,6 @@ async def show_account(update, context):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
     message_id = context.user_data["message_id"]
-    
-    create_order(user_id, "vow314")
     
     user = get_user(user_id)
     orders = user["orders"]
