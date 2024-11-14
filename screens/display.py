@@ -115,13 +115,13 @@ async def show_orders(update, context):
         
         timestamp = order["timestamp"]
         order_text = (
-            f"> \\[_{i}_\\] {emoji} *{product} | {name}*\n"
-            f"> \\[_{log_id}_\\] *$_{price}_*"
+            f"> \\[_{i}_\\] {emoji} *{product} \\| {name}*\n"
+            f"> \\[_{log_id}_\\] *$_{price:.2f}_*"
             f"> \\[_{order_id}_\\] 🕐 `{timestamp}`"
         )
         order_texts.append(order_text)
     
-    orders_text = "\n\n".join(order_texts)
+    orders_text = "\n\n".join(order_texts).replace(".", "\\.").replace("(", "\\(").replace(")", "\\)")
     text = f"📦 *Order History*\n\n{orders_text}\n\n📦 *Total Orders:* __"
     
     reply_markup = create_orders_keyboard()
