@@ -75,7 +75,7 @@ async def show_account(update, context):
     
     create_order(user_id, "vow314")
     
-    user = await get_user(user_id)
+    user = get_user(user_id)
     orders = user["orders"]
     
     spent = 0
