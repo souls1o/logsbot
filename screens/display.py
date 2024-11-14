@@ -11,7 +11,7 @@ async def show_main_menu(update, context):
     user_name = update.effective_user.first_name
     
     reply_markup = create_main_menu_keyboard()
-    text = f"🔱 *Welcome to __Poseidon Logs__, _{user_name}_\\!* 🔱\n\n> *ℹ️ Poseidon is the \\#1 and only bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n🔗 *\\| t\\.me/sheloveosamaa*\n📞 *\\| @fwsouls*"
+    text = f"🔱 *Welcome to __Poseidon Logs__, _{user_name}_\\!* 🔱\n\n> *ℹ️ Poseidon is the \\#1 and only bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n📢 *\\| t\\.me/sheloveosamaa*\n📞 *\\| @fwsouls*"
     
     user = get_user(user_id)
     if not user:
