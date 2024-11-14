@@ -76,7 +76,7 @@ async def show_account(update, context):
     user = get_user(user_id)
     orders = user["orders"]
     
-    spent = 0
+    spent = 0.00
     for order_id in orders:
         order = get_order(order_id)
         log_id = order["info"]["log_id"]
