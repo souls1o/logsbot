@@ -22,6 +22,7 @@ def create_account_logs_keyboard(products):
     ]
     
     for product in products:
+        product = re.sub(r'[^A-Za-z]', '', product).lower().replace(' ', '_')
         keyboard.insert(-1, [InlineKeyboardButton(product, callback_data=f"product_{product}")])
     
     return InlineKeyboardMarkup(keyboard)
