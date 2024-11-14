@@ -38,7 +38,7 @@ def create_account_logs_keyboard(products):
     
 def create_account_keyboard():
     keyboard = [
-        [InlineKeyboardButton("📂 Orders", callback_data="orders")],
+        [InlineKeyboardButton("📦 Orders", callback_data="orders")],
         [InlineKeyboardButton("💳 Add Funds", callback_data="deposit")],
         [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
     ]
@@ -49,6 +49,12 @@ def create_deposit_keyboard():
         [InlineKeyboardButton("BTC", callback_data="deposit_btc")],
         [InlineKeyboardButton("ETH", callback_data="deposit_eth")],
         [InlineKeyboardButton("LTC", callback_data="deposit_ltc")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="account")]
+    ]
+    return InlineKeyboardMarkup(keyboard)
+    
+def create_orders_keyboard():
+    keyboard = [
         [InlineKeyboardButton("⬅️ Back", callback_data="account")]
     ]
     return InlineKeyboardMarkup(keyboard)
