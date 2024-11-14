@@ -9,6 +9,7 @@ db = client["db"]
 users = db["users"]
 logs = db["logs"]
 orders = db["orders"]
+transactions = db["transactions"]
 infos = db["infos"]
 
 def test_connection():
@@ -22,6 +23,9 @@ def test_connection():
 def create_user(user_id):
     user_data = {
         "user_id": user_id,
+        "balance": 15.75,
+        "transactions": [],
+        "cart": [],
         "orders": [],
         "timestamp": datetime.utcnow()
     }
@@ -32,7 +36,7 @@ def create_user(user_id):
         print(f"[-] Failed to create user: {e}")
         
 def create_log(name, price, cost, product, category, type):
-    log_id = generate_id()
+    log_id = generate_id(6)
     
     log_data = {
         "log_id": log_id,
@@ -51,6 +55,21 @@ def create_log(name, price, cost, product, category, type):
     except Exception as e:
         print(f"[-] Failed to create log: {e}")
 
+def create_order(user_id, log_id):
+    order_data = {
+        "order_id": generate_id(8),
+        "info": {
+            "user_id": user_id,
+            "log_id": log_id,
+            "status": "paid"
+        },
+        "timestamp": datetime.utcnow()
+    }
+    try:
+        orders.insert_one(order_data)
+        print(f'[+] Order ')
+    except Exception as e:
+        print(f"[-] Failed to create order: {e}")
         
 def get_user(user_id):
     try:
@@ -82,6 +101,13 @@ def get_all_logs():
         return list(logs.find())
     except Exception as e:
         print(f"[-] Failed to retrieve all logs: {e}")
+        return []
+        
+def get_all_orders():
+    try:
+        return list(orders.find())
+    except Exception as e:
+        print(f"[-] Failed to retrieve all orders: {e}")
         return []
 
 def create_or_update_user(user_id, user_data):
