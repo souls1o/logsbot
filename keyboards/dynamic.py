@@ -1,3 +1,4 @@
+import re
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 def create_main_menu_keyboard():
