@@ -121,7 +121,7 @@ async def show_orders(update, context):
         )
         order_texts.append(order_text)
     
-    orders_text = "\n\n".join(order_texts).replace(".", "\\.").replace("(", "\\(").replace(")", "\\)")
+    orders_text = "\n\n".join(order_texts).replace(".", "\\.").replace("(", "\\(").replace(")", "\\)").replace("-", "\\-")
     text = f"📦 *Order History*\n\n{orders_text}\n\n📦 *Total Orders:* __"
     
     reply_markup = create_orders_keyboard()
