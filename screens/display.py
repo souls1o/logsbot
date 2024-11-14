@@ -1,7 +1,7 @@
 from collections import defaultdict
 from helpers import filter_text, get_emoji
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
-from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard
+from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard
 
 parse_mode = "MarkdownV2"
 
@@ -27,7 +27,7 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    create_log("Coinbase FA", 6.00, 4.00, "FA (Hotmail)", "FA", "account")
+    # create_log("Coinbase FA", 6.00, 4.00, "FA (Hotmail)", "FA", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
@@ -91,4 +91,38 @@ async def show_account(update, context):
     
     reply_markup = create_account_keyboard()
     text = f"👤 *Account*\n\n> 💲 *Balance:* $_{balance:.2f}_\n> 🛒 *Total Spent:* $_{spent:.2f}_\n> 📦 *Total Orders:* _{order_count}_".replace(".", "\\.")
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    
+async def show_orders(update, context):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    message_id = context.user_data["message_id"]
+    
+    user = get_user(user_id)
+    orders = user["orders"]
+    order_texts = []
+    
+    for i, order_id in enumerate(orders, start=1):
+        order = get_order(order_id)
+        order_id = order["order_id"]
+        log_id = order["info"]["log_id"]
+        
+        log = get_log(log_id)
+        name = log["name"]
+        product = log["product"]
+        price = log["price"]
+        emoji = get_emoji(log["category"])
+        
+        timestamp = order["timestamp"]
+        order_text = (
+            f"> \\[_{i}_\\] {emoji} *{product} | {name}*\n",
+            f"> \\[_{log_id}_\\] *$_{price}_*",
+            f"> \\[_{order_id}_\\] 🕐 `{timestamp}`"
+        )
+        order_texts.append(order_text)
+    
+    orders_text = "\n\n".join(order_texts)
+    text = f"📦 *Order History*\n\n{orders_text}\n\n📦 *Total Orders:* __"
+    
+    reply_markup = create_orders_keyboard()
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
