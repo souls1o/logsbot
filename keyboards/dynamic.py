@@ -18,13 +18,21 @@ def create_menu_keyboard(logs_count, banks_count):
     return InlineKeyboardMarkup(keyboard)
     
 def create_account_logs_keyboard(products):
-    keyboard = [
-        [InlineKeyboardButton("⬅️ Back", callback_data="menu")]
-    ]
-    
-    for product in products:
-        product = re.sub(r'[^A-Za-z]', '', product).lower().replace(' ', '_')
-        keyboard.insert(-1, [InlineKeyboardButton(product, callback_data=f"product_{product}")])
+    keyboard = []
+    row = []
+        
+    for i, product in enumerate(products):
+        product_data = re.sub(r'[^A-Za-z]', '', product).lower().replace(' ', '_')
+        row.append(InlineKeyboardButton(product, callback_data=f"product_{product_data}"))
+        
+        if (i + 1) % 2 == 0:
+            keyboard.append(row)
+            row = []
+            
+    if row:
+        keyboard.append(row)
+        
+    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data="menu")])
     
     return InlineKeyboardMarkup(keyboard)
     
