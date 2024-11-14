@@ -117,7 +117,7 @@ async def show_orders(update, context):
         timestamp = order["timestamp"]
         order_text = (
             f"> \\[_{i}_\\] {emoji} *{product} \\| {name}*\n"
-            f"> \\[`{order_id}`\\] *$___{price:.2f}___*\n"
+            f"> \\[`{order_id}`\\] *$__{price:.2f}__*\n"
             f"> 🕐 _{timestamp}_"
         )
         order_texts.append(order_text)
