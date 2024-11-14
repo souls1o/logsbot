@@ -100,6 +100,7 @@ async def show_orders(update, context):
     
     user = get_user(user_id)
     orders = user["orders"]
+    order_count = len(orders)
     order_texts = []
     
     for i, order_id in enumerate(orders, start=1):
@@ -122,7 +123,7 @@ async def show_orders(update, context):
         order_texts.append(order_text)
     
     orders_text = "\n\n".join(order_texts).replace(".", "\\.").replace("(", "\\(").replace(")", "\\)").replace("-", "\\-")
-    text = f"📦 *Order History*\n\n{orders_text}\n\n📦 *Total Orders:* __"
+    text = f"📦 *Order History*\n\n{orders_text}\n\n📦 *Total Orders:* __{order_count}__"
     
     reply_markup = create_orders_keyboard()
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
