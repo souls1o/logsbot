@@ -3,7 +3,8 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 def create_main_menu_keyboard():
     keyboard = [
         [InlineKeyboardButton("🚀 Menu", callback_data="menu")],
-        [InlineKeyboardButton("👤 Account", callback_data="account")]
+        [InlineKeyboardButton("👤 Account", callback_data="account")],
+        [InlineKeyboardButton("🛒 Cart", callback_data="cart")]
     ]
     return InlineKeyboardMarkup(keyboard)
     
