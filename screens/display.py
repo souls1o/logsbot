@@ -11,7 +11,7 @@ async def show_main_menu(update, context):
     user_name = update.effective_user.first_name
     
     reply_markup = create_main_menu_keyboard()
-    text = f"🔱 *Welcome to __Poseidon Logs__, _{user_name}_\\!* 🔱\n\n> *ℹ️ Poseidon is the \\#1 and only bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n📢 *\\| t\\.me/sheloveosamaa*\n📞 *\\| @fwsouls*"
+    text = f"🔱 *Welcome to __Poseidon__, _{user_name}_\\!* 🔱\n\n> *ℹ️ Poseidon is the \\#1 bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n📢 *\\| t\\.me/diablosgrave*\n💬 *\\| t\\.me/fraudschemin*\n📞 *\\| @fwsouls*"
     
     user = get_user(user_id)
     if not user:
@@ -20,6 +20,7 @@ async def show_main_menu(update, context):
     if context.user_data.get("message_id"):
         await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     else:
+        create_order(user_id, ["vow314", "flel9y", "3y536h"])
         message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
         context.user_data["message_id"] = message.message_id
         
@@ -106,24 +107,40 @@ async def show_orders(update, context):
     for i, order_id in enumerate(orders, start=1):
         order = get_order(order_id)
         order_id = order["order_id"]
-        log_id = order["info"]["log_id"]
-        
-        log = get_log(log_id)
-        name = log["name"]
-        product = log["product"]
-        price = log["price"]
-        emoji = get_emoji(log["category"])
-        
+        logs = order["info"]["logs]
         timestamp = order["timestamp"]
+        
+        log_infos = {}
+        for log_id in logs:
+            if log_id not in log_infos:
+                log = get_log(log_id)
+                log_infos[log_id] = {"quantity": 0, "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
+            log_infos[log_id]["quantity"] += 1
+            
+        log_texts = []
+        log_values = list(log_counts.values())
+        for log_info in log_values[:3]:
+            name = log_info["name"]
+            product = log_info["product"]
+            emoji = log_info["emoji"]
+            quantity = log_info["quantity"]
+            log_texts.append(f"> {emoji} *{product} \\| {name} - x*_{quantity}_")
+        
+        extra = len(log_values) - 3
+        if extra > 0:
+            logs_display = "\n".join(log_texts) + f"\n> _And {extra_logs_count} more..._"
+        else:
+            logs_display = "\n".join(log_texts)
+            
         order_text = (
-            f"> \\[_{i}_\\] {emoji} *{product} \\| {name}*\n"
-            f"> \\[`{order_id}`\\] *$__{price:.2f}__*\n"
-            f"> 🕐 _{timestamp}_"
+            f"\\[_{i}_\\] *{order_id}*\n"
+            f"{logs_display}"
+            f"🕐 _{timestamp}_"
         )
         order_texts.append(order_text)
     
-    orders_text = "\n\n".join(order_texts).replace(".", "\\.").replace("(", "\\(").replace(")", "\\)").replace("-", "\\-")
-    text = f"📦 *Order History*\n\n{orders_text}\n\n📦 *Total Orders:* {order_count}"
+    orders_text = "\n\n".join(order_texts).replace("(", "\\(").replace(")", "\\)").replace("-", "\\-")
+    text = f"📦 *Order History*\n\n{orders_text if orders else f"> _Nothing to see here... 👀"}\n\n📦 *Total Orders:* {order_count}".replace(".", "\\.")
     
     reply_markup = create_orders_keyboard()
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
