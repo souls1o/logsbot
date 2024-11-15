@@ -107,7 +107,7 @@ async def show_orders(update, context):
     for i, order_id in enumerate(orders, start=1):
         order = get_order(order_id)
         order_id = order["order_id"]
-        logs = order["info"]["logs]
+        logs = order["info"]["logs"]
         timestamp = order["timestamp"]
         
         log_infos = {}
