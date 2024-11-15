@@ -82,10 +82,11 @@ async def show_account(update, context):
     spent = 0.00
     for order_id in orders:
         order = get_order(order_id)
-        log_id = order["info"]["log_id"]
+        logs = order["info"]["logs"]
         
-        log = get_log(log_id)
-        spent += log["price"]
+        for log_id in logs:
+            log = get_log(log_id)
+            spent += log["price"]
     
     balance = user["balance"]
     order_count = len(orders)
