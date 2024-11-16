@@ -20,7 +20,6 @@ async def show_main_menu(update, context):
     if context.user_data.get("message_id"):
         await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     else:
-        create_order(user_id, ["vow314", "flel9y", "3y536h"])
         message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
         context.user_data["message_id"] = message.message_id
         
