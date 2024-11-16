@@ -118,7 +118,7 @@ async def show_orders(update, context):
             log_infos[log_id]["quantity"] += 1
             
         log_texts = []
-        log_values = list(log_counts.values())
+        log_values = list(log_infos.values())
         for log_info in log_values[:3]:
             name = log_info["name"]
             product = log_info["product"]
