@@ -18,9 +18,9 @@ async def show_main_menu(update, context):
         create_user(user_id)
     
     if context.user_data.get("message_id"):
-        await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup, disable_web_preview=True)
+        await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup, disable_web_page_preview=True)
     else:
-        message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup, disable_web_preview=True)
+        message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup, disable_web_page_preview=True)
         context.user_data["message_id"] = message.message_id
         
 async def show_menu(update, context):
