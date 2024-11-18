@@ -18,9 +18,9 @@ async def show_main_menu(update, context):
         create_user(user_id)
     
     if context.user_data.get("message_id"):
-        await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+        await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup, disable_web_preview=True)
     else:
-        message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup)
+        message = await context.bot.send_message(chat_id, text, parse_mode, reply_markup=reply_markup, disable_web_preview=True)
         context.user_data["message_id"] = message.message_id
         
 async def show_menu(update, context):
@@ -109,12 +109,13 @@ async def show_orders(update, context):
         order_id = order["order_id"]
         logs = order["info"]["logs"]
         timestamp = order["timestamp"]
+        cost = 0
         
         log_infos = {}
         for log_id in logs:
             if log_id not in log_infos:
                 log = get_log(log_id)
-                log_infos[log_id] = {"quantity": 0, "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
+                log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
             log_infos[log_id]["quantity"] += 1
             
         log_texts = []
@@ -124,7 +125,9 @@ async def show_orders(update, context):
             product = log_info["product"]
             emoji = log_info["emoji"]
             quantity = log_info["quantity"]
-            log_texts.append(f"> {emoji} *{product} \\| {name} - x*_{quantity}_")
+            price = log_info["price"]
+            cost += price
+            log_texts.append(f"> {emoji} *{product} \\| {name} - x*_{quantity}_ \\($__{price}__\\)")
         
         extra = len(log_values) - 3
         if extra > 0:
@@ -133,7 +136,7 @@ async def show_orders(update, context):
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"\\[_{i}_\\] *{order_id}*\n"
+            f"\\[_{i}_\\] *{order_id} — $_{cost}_*\n"
             f"{logs_display}"
             f"🕐 _{timestamp}_"
         )
