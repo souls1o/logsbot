@@ -108,7 +108,7 @@ async def show_orders(update, context):
         order = get_order(order_id)
         order_id = order["order_id"]
         logs = order["info"]["logs"]
-        timestamp = order["timestamp"]
+        timestamp = filter_text(order["timestamp"])
         cost = 0
         
         log_infos = {}
@@ -127,7 +127,7 @@ async def show_orders(update, context):
             quantity = log_info["quantity"]
             price = log_info["price"]
             cost += price
-            log_texts.append(f"> {emoji} *{product} \\| {name} - x*_{quantity}_ \\($__{price}__\\)")
+            log_texts.append(f"> {emoji} *{product} \\| {name} \\- x*_{quantity}_ \\($__{price}__\\)")
         
         extra = len(log_values) - 3
         if extra > 0:
