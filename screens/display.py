@@ -108,7 +108,7 @@ async def show_orders(update, context):
         order = get_order(order_id)
         order_id = order["order_id"]
         logs = order["info"]["logs"]
-        timestamp = filter_text(order["timestamp"])
+        timestamp = order["timestamp"]
         cost = 0
         
         log_infos = {}
@@ -136,10 +136,10 @@ async def show_orders(update, context):
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"\\[_{i}_\\] *{order_id} \\— $_{cost}_*\n"
+            f"\\[_{i}_\\] *{order_id} — $_{cost}_*\n"
             f"{logs_display}\n"
             f"🕐 _{timestamp}_"
-        )
+        ).replace("-", "\\-")
         order_texts.append(order_text)
     
     no_orders = "> _Nothing to see here... 👀_"
