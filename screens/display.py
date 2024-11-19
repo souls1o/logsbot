@@ -131,12 +131,12 @@ async def show_orders(update, context):
         
         extra = len(log_values) - 3
         if extra > 0:
-            logs_display = "\n".join(log_texts) + f"\n> _And {extra_logs_count} more..._"
+            logs_display = "\n".join(log_texts) + f"\n> _And {extra} more..._"
         else:
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"\\[_{i}_\\] *{order_id} — $_{cost}_*\n"
+            f"\\[_{i}_\\] *{order_id} \\— $_{cost}_*\n"
             f"{logs_display}\n"
             f"🕐 _{timestamp}_"
         ).replace("-", "\\-")
