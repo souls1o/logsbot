@@ -138,7 +138,7 @@ async def show_orders(update, context):
         order_text = (
             f"\\[_{i}_\\] *{order_id} \\— $_{cost:.2f}_*\n"
             f"{logs_display}\n"
-            f"🕐 _{timestamp}_"
+            f"🕐 _0_"
         )
         order_texts.append(order_text)
     
