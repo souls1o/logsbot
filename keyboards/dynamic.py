@@ -53,8 +53,20 @@ def create_deposit_keyboard():
     ]
     return InlineKeyboardMarkup(keyboard)
     
-def create_orders_keyboard():
-    keyboard = [
-        [InlineKeyboardButton("⬅️ Back", callback_data="account")]
-    ]
+def create_orders_keyboard(orders):
+    keyboard = []
+    row = []
+        
+    for i, order in enumerate(orders):
+        row.append(InlineKeyboardButton(f"[{order}]", callback_data=f"order_{order}"))
+        
+        if (i + 1) % 2 == 0:
+            keyboard.append(row)
+            row = []
+            
+    if row:
+        keyboard.append(row)
+        
+    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data="account")])
+    
     return InlineKeyboardMarkup(keyboard)
