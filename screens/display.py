@@ -27,7 +27,7 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    # create_log("Coinbase FA", 6.00, 4.00, "FA (Hotmail)", "FA", "account")
+    create_log("Acorns FA", 5.00, 2.00, "FA (Hotmail)", "FA", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
@@ -110,10 +110,12 @@ async def show_orders(update, context):
         
         log_infos = {}
         for log_id in logs:
+            log = get_log(log_id)
             if log_id not in log_infos:
-                log = get_log(log_id)
+                cost += log["price"]
                 log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
             log_infos[log_id]["quantity"] += 1
+            log_infos[log_id]["price"] += log["price"]
             
         log_texts = []
         log_values = list(log_infos.values())
@@ -123,7 +125,6 @@ async def show_orders(update, context):
             emoji = log_info["emoji"]
             quantity = log_info["quantity"]
             price = log_info["price"]
-            cost += price
             log_texts.append(f"> {emoji} *{product} | {name} - x*_{quantity}_ ($__{price:.2f}__)")
         
         extra = len(log_values) - 3
