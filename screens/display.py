@@ -138,7 +138,7 @@ async def show_orders(update, context):
         order_text = (
             f"\\[_{i}_\\] *{order_id} \\— $_{cost:.2f}_*\n"
             f"{logs_display}\n"
-            f"🕐 _0_"
+            f"🕐 _{timestamp}_"
         )
         order_texts.append(order_text)
     
@@ -146,5 +146,6 @@ async def show_orders(update, context):
     orders_text = "\n\n".join(order_texts).replace("-", "\\-").replace(".", "\\.")
     text = f"📦 *Order History*\n\n{orders_text if orders else no_orders}\n\n📦 *Total Orders:* {order_count}"
     
+    
     reply_markup = create_orders_keyboard()
-    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, reply_markup=reply_markup)
