@@ -27,6 +27,8 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
+    create_log("Acorns FA", 5.00, 2.00, "FA (Hotmail)", "FA", "account")
+    
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
     text = "🚀 *Menu*\n\nChoose an option:"
@@ -135,7 +137,7 @@ async def show_orders(update, context):
         order_text = (
             f"[_{i}_] *{order_id} — $_{cost:.2f}_*\n"
             f"{logs_display}\n"
-            f"> [🕐 _{timestamp}_]"
+            f"> *[* 🕐 _{timestamp}_ *]*"
         )
         order_texts.append(order_text)
     
