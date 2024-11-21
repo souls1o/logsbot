@@ -127,7 +127,7 @@ async def show_orders(update, context):
             quantity = log_info["quantity"]
             price = log_info["price"]
             cost += price
-            log_texts.append(f"> {emoji} *{product} \\| {name} - x*_{quantity}_ \\($__{price:.2f}__\\)")
+            log_texts.append(f"> {emoji} *{product} \\| {name} \\- x*_{quantity}_ \\($__{price:.2f}__\\)")
         
         extra = len(log_values) - 3
         if extra > 0:
@@ -136,7 +136,7 @@ async def show_orders(update, context):
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"\\[_{i}_\\] *{order_id} — $_{cost:.2f}_*\n"
+            f"\\[_{i}_\\] *{order_id} \\— $_{cost:.2f}_*\n"
             f"{logs_display}\n"
             f"🕐 _{timestamp}_"
         )
