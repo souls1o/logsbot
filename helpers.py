@@ -8,6 +8,12 @@ def get_chat_id(update: Update) -> int:
 def filter_text(text: str):
     return text.replace('_', '\\_').replace('-', '\\-').replace('.', '\\.').replace('!', '\\!').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]').replace('=', '\\=').replace('<', '\\<').replace('>', '\\>')
     
+def escape_markdown(text: str):
+    chars = r"[]()+-|.!"
+    for char in chars:
+        text = text.replace(char, f"\\{char}")
+    return text
+    
 def generate_id(n: int):
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=n))
     
