@@ -130,12 +130,13 @@ async def show_orders(update, context):
         
         extra = len(log_values) - 3
         if extra > 0:
-            logs_display = "\n".join(log_texts) + f"\n> _And {extra} more..._"
+            total = sum(log_info["price"] for log_info in log_values[3:])
+            logs_display = "\n".join(log_texts) + f"\n> ➕*{extra} MORE TOTALING $__{total:.2f}__*"
         else:
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"[_{i}_] *{order_id} — $_{cost:.2f}_*\n"
+            f"[*_{i}_*] *{order_id} — $_{cost:.2f}_*\n"
             f"{logs_display}\n"
             f"> *[* 🕐 _{timestamp}_ *]*"
         )
@@ -145,5 +146,5 @@ async def show_orders(update, context):
     orders_text = "\n\n".join(order_texts)
     text = escape_markdown(f"📦 *Order History*\n\n{orders_text if orders else no_orders}\n\n📦 *Total Orders:* {order_count}")
     
-    reply_markup = create_orders_keyboard()
+    reply_markup = create_orders_keyboard(orders)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
