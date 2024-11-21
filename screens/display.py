@@ -127,7 +127,7 @@ async def show_orders(update, context):
             quantity = log_info["quantity"]
             price = log_info["price"]
             cost += price
-            log_texts.append(f"> {emoji} *{product} \\| {name} \\- x*_{quantity}_ \\($__{price:.2f}__\\)")
+            log_texts.append(f"> {emoji} *{product} \\\\| {name} \\- x*_{quantity}_ \\\\($__{price:.2f}__\\\\)")
         
         extra = len(log_values) - 3
         if extra > 0:
@@ -136,16 +136,15 @@ async def show_orders(update, context):
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"\\[_{i}_\\] *{order_id} \\— $_{cost:.2f}_*\n"
+            f"\\\\[_{i}_\\\\] *{order_id} \\\\— $_{cost:.2f}_*\n"
             f"{logs_display}\n"
             f"🕐 _{timestamp}_"
         )
         order_texts.append(order_text)
     
     no_orders = "> _Nothing to see here... 👀_"
-    orders_text = "\n\n".join(order_texts).replace("-", "\\-").replace(".", "\\.")
+    orders_text = "\n\n".join(order_texts).replace("-", "\\\\-").replace(".", "\\\\.")
     text = f"📦 *Order History*\n\n{orders_text if orders else no_orders}\n\n📦 *Total Orders:* {order_count}"
     
-    
     reply_markup = create_orders_keyboard()
-    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, reply_markup=reply_markup)
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
