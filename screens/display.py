@@ -131,13 +131,13 @@ async def show_orders(update, context):
         extra = len(log_values) - 3
         if extra > 0:
             total = sum(log_info["price"] for log_info in log_values[3:])
-            logs_display = "\n".join(log_texts) + f"\n> ➕*{extra} MORE TOTALING $__{total:.2f}__*"
+            logs_display = "\n".join(log_texts) + f"\n> ➕*{extra}* MORE ($__{total:.2f}__)"
         else:
             logs_display = "\n".join(log_texts)
             
         order_text = (
             f"[*_{i}_*] *{order_id} — $_{cost:.2f}_*\n"
-            f"{logs_display}\n\n"
+            f"{logs_display}\n"
             f"> *[* 🕐 _{timestamp}_ *]*"
         )
         order_texts.append(order_text)
