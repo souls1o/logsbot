@@ -1,4 +1,3 @@
-from datetime import datetime
 from collections import defaultdict
 from helpers import filter_text, get_emoji
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
@@ -109,7 +108,7 @@ async def show_orders(update, context):
         order = get_order(order_id)
         order_id = order["order_id"]
         logs = order["info"]["logs"]
-        timestamp = datetime.fromtimestamp(order["timestamp"]).strftime("%Y-%m-%d %H:%M")
+        timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
         cost = 0.00
         
         log_infos = {}
@@ -148,4 +147,4 @@ async def show_orders(update, context):
     text = f"📦 *Order History*\n\n{orders_text if orders else no_orders}\n\n📦 *Total Orders:* {order_count}"
     
     reply_markup = create_orders_keyboard()
-    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, reply_markup=reply_markup)
