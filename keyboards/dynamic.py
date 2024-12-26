@@ -70,3 +70,9 @@ def create_orders_keyboard(orders):
     keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data="account")])
     
     return InlineKeyboardMarkup(keyboard)
+    
+def create_order_keyboard():
+    keyboard = [
+        [InlineKeyboardButton("⬅️ Back", callback_data="orders")],
+    ]
+    return InlineKeyboardMarkup(keyboard)
