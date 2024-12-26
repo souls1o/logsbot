@@ -1,7 +1,7 @@
 from collections import defaultdict
-from helpers import escape_markdown, get_emoji
+from helpers import escape_markdown, get_emoji, emojify
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
-from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard
+from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard
 
 parse_mode = "MarkdownV2"
 
@@ -27,7 +27,7 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    create_log("Acorns FA", 5.00, 2.00, "FA (Hotmail)", "FA", "account")
+    create_log("$5-$10 Giftcard", 1.25, 0.65, "Starbucks", "Food", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
@@ -131,7 +131,7 @@ async def show_orders(update, context):
         extra = len(log_values) - 3
         if extra > 0:
             total = sum(log_info["price"] for log_info in log_values[3:])
-            logs_display = "\n".join(log_texts) + f"\n> ➕*{extra}* MORE ($__{total:.2f}__)"
+            logs_display = "\n".join(log_texts) + f"\n> ➕ *{extra} MORE* ($__{total:.2f}__)"
         else:
             logs_display = "\n".join(log_texts)
             
@@ -148,3 +148,41 @@ async def show_orders(update, context):
     
     reply_markup = create_orders_keyboard(orders)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    
+async def show_order(update, context, order_id):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    message_id = context.user_data["message_id"]
+    
+    order = get_order(order_id)
+    logs = order["info"]["logs"]
+    timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
+    cost = 0.00
+    
+    total = emojify(logs.length())
+    
+    log_infos = {}
+    for log_id in logs:
+        log = get_log(log_id)
+        cost += log["price"]
+        if log_id not in log_infos:
+            log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
+        else:
+            log_infos[log_id]["price"] += log["price"]
+        log_infos[log_id]["quantity"] += 1
+
+    log_texts = []
+    log_values = list(log_infos.values())
+    for log_info in log_values:
+        name = log_info["name"]
+        product = log_info["product"]
+        emoji = log_info["emoji"]
+        quantity = log_info["quantity"]
+        price = log_info["price"]
+        log_texts.append(f"> {emoji} *{product} | {name} - x*_{quantity}_ ($__{price:.2f}__)")
+        
+    logs_display = "\n".join(log_texts)
+    
+    text = escape_markdown(f"📦 *Order #__{order_id}__\n\n💲{cost:.2f}*\n{total}\n`{timestamp}`\n\n{logs_display}")
+    reply_markup = create_order_keyboard()
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
