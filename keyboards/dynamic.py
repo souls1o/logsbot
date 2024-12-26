@@ -73,7 +73,7 @@ def create_orders_keyboard(orders):
     
 def create_order_keyboard(order_id):
     keyboard = [
-        [InlineKeyboardButton("💾 Download Logs", callback_data=f"logs_{order_id")],
+        [InlineKeyboardButton("💾 Download Logs", callback_data=f"logs_{order_id}")],
         [InlineKeyboardButton("⬅️ Back", callback_data="orders")]
     ]
     return InlineKeyboardMarkup(keyboard)
