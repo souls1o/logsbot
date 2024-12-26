@@ -27,7 +27,7 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    create_log("$5-$10 Giftcard", 1.25, 0.65, "Starbucks", "Food", "account")
+    # create_log("$5-$10 Giftcard", 1.25, 0.65, "Starbucks", "Food", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
@@ -159,7 +159,7 @@ async def show_order(update, context, order_id):
     timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
     cost = 0.00
     
-    total = emojify(logs.length())
+    total = emojify(len(logs))
     
     log_infos = {}
     for log_id in logs:
