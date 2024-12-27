@@ -26,6 +26,15 @@ def get_emoji(category):
     
     return category_emojis.get(category, "❓")
     
+def get_product(product):
+    products = {
+        "fa_hotmail": "FA (Hotmail)",
+        "subway": "Subway",
+        "starbucks": "Starbucks"
+    }
+    
+    return products.get(product, "❓")
+    
 def emojify(number):
     digit_to_emoji = {
         '0': '0️⃣',
