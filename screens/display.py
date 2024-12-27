@@ -1,5 +1,5 @@
 from collections import defaultdict
-from helpers import escape_markdown, get_emoji, emojify
+from helpers import escape_markdown, get_emoji, emojify, get_product
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard
 
@@ -66,6 +66,32 @@ async def show_account_logs(update, context):
     
     reply_markup = create_account_logs_keyboard(products_with_emojis)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    
+async def show_options(update, context, product):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    message_id = context.user_data["message_id"]
+    
+    user = get_user(user_id)
+    product = get_product(product)
+    logs = get_all_logs()
+    log_texts = []
+    cat_emoji = "❓"
+    
+    for log in logs:
+        log_product = log.get("product")
+        if log_product == product:
+            log_id = log.get("log_id")
+            log_name = log.get("name")
+            log_price = log.get("price")
+            global cat_emoji
+            cat_emoji = get_emoji(log.get("category"))
+            
+            log_texts.append(f"> {cat_emoji} *$__{log_price:.2f}__ | {log_name}*\n> #️⃣ _{log_id}_")
+            
+    logs_display = "\n\n".join(log_texts)
+    text = escape_markdown(f"{cat_emoji} *{product}\n\n{logs_display}")
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode)
     
 async def show_account(update, context):
     chat_id = update.effective_chat.id
