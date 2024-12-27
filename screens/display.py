@@ -77,9 +77,6 @@ async def show_options(update, context, product):
     logs = get_all_logs()
     log_texts = []
     
-    global cat_emoji
-    cat_emoji = "❓"
-    
     for log in logs:
         log_product = log.get("product")
         if log_product == product:
