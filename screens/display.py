@@ -89,7 +89,7 @@ async def show_options(update, context, product):
             log_texts.append(f"> {cat_emoji} *$__{log_price:.2f}__ | {log_name}*\n> #️⃣ _{log_id}_")
             
     logs_display = "\n\n".join(log_texts)
-    text = escape_markdown(f"{cat_emoji} *{product}\n\n{logs_display}")
+    text = escape_markdown(f"{cat_emoji} *{product}*\n\n{logs_display}")
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode)
     
 async def show_account(update, context):
