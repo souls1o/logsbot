@@ -77,14 +77,17 @@ async def show_options(update, context, product):
     logs = get_all_logs()
     log_texts = []
     
+    cat_emoji = None
+    
     for log in logs:
         log_product = log.get("product")
         if log_product == product:
             log_id = log.get("log_id")
             log_name = log.get("name")
             log_price = log.get("price")
-            global cat_emoji
-            cat_emoji = get_emoji(log.get("category"))
+            
+            if cat_emoji == None:
+                cat_emoji = get_emoji(log.get("category"))
             
             log_texts.append(f"> {cat_emoji} *$__{log_price:.2f}__ | {log_name}*\n> #️⃣ _{log_id}_")
             
