@@ -62,7 +62,7 @@ async def show_account_logs(update, context):
         products_with_emojis.append(f"{emoji} {product}")
         
     products_text = "\n".join(product_lines)
-    text = escape_markdown(f"📲 *Account Logs*\n\n{products_text}")
+    text = escape_markdown(f"👥 *Account Logs*\n\n{products_text}")
     
     reply_markup = create_account_logs_keyboard(products_with_emojis)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
