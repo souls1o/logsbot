@@ -30,6 +30,7 @@ def get_product(product):
     products = {
         "fa_hotmail": "FA (Hotmail)",
         "subway": "Subway",
+        "starbucks_gc_no_pin": "Starbucks <GC NO-PIN>",
         "starbucks": "Starbucks"
     }
     
