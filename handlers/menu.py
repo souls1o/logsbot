@@ -22,6 +22,9 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data.startswith("order_"):
         order_id = query.data.split("_", 1)[1]
         await show_order(update, context, order_id)
+    elif query.data.startswith("logs_"):
+        order_id = query.data.split("_", 1)[1]
+        await show_logs_file(update, context, order_id)
     
 def get_handler():
     return CallbackQueryHandler(menu_handler)
