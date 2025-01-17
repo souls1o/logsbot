@@ -1,5 +1,5 @@
 from collections import defaultdict
-from helpers import escape_markdown, get_emoji, emojify, get_product, send_logs
+from helpers import escape_markdown, get_emoji, get_product
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard
 
@@ -224,5 +224,9 @@ async def show_logs_file(update, context, order_id):
     order = get_order(order_id)
     logs = order["info"]["logs"]
     
-    document = send_logs(logs)
-    await context.bot.send_document(chat_id=chat_id, document=document)
+    with open(f"{order_id}.txt") as file:
+        for log in logs:
+            file.write(log + "\n")
+    
+    with open(f"{order_id}.txt", "rb") as file:
+        await context.bot.send_document(chat_id=chat_id, document=file)
