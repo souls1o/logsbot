@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import CallbackQueryHandler, ContextTypes
-from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options
+from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options, show_logs_file
 
 async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
