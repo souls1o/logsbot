@@ -11,7 +11,7 @@ async def show_main_menu(update, context):
     user_name = update.effective_user.first_name
     
     reply_markup = create_main_menu_keyboard()
-    text = f"🔱 *Welcome to __Crucified__, _{user_name}_\\!* 🔱\n\n> *ℹ️ Poseidon is the \\#1 bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n📢 *\\| t\\.me/diablosgrave*\n💬 *\\| t\\.me/fraudschemin*\n📞 *\\| @fwsouls*"
+    text = f"*♱ Welcome to __Crucified__, _{user_name}_\\! ♱*\n\n> *ℹ️ Crucified is the \\#1 bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n📢 *\\| t\\.me/diablosgrave*\n💬 *\\| t\\.me/fraudschemin*\n📞 *\\| @fwsouls*"
     
     user = get_user(user_id)
     if not user:
@@ -27,8 +27,8 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    create_log("$10-$15 Giftcard", 2.50, 1.15, "Starbucks <GC NO-PIN>", "Food", "account")
-    create_log("$15-$20 Giftcard", 3.75, 1.15, "Starbucks <GC NO-PIN>", "Food", "account")
+    # create_log("$10-$15 Giftcard", 2.50, 1.15, "Starbucks <GC NO-PIN>", "Food", "account")
+    # create_log("$15-$20 Giftcard", 3.75, 1.15, "Starbucks <GC NO-PIN>", "Food", "account")
     
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
