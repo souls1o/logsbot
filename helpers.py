@@ -53,7 +53,7 @@ def generate_address(user_id, ticker):
         "Content-Type": "application/json"
     }
     
-    res = requests.post("https://apirone.com/api/v2/accounts/apr-e729d9982f079fa86b10a0e3aa6ff37b/addresses", json=payload, headers=headers)
+    res = requests.post("https://apirone.com/api/v2/accounts/apr-e4ee22c85068e9fbf7f7f66b27775edd/addresses", json=payload, headers=headers)
     if res.status_code == 200:
         data = res.json()
         return data["address"]
