@@ -252,5 +252,10 @@ async def show_deposit_addr(update, context, ticker):
     address = user["addresses"][ticker]
     if not address:
         address = generate_address(user_id, ticker)
-    
-    text = f"*{name} Deposit*\n\n{ticker_up} Address: `{address}`"
+        if address:
+            user["addresses"][ticker] = address
+            update_user(user_id, user)
+        
+    text = f"*💳 {name} Deposit*\n\n{ticker_up} Address: `{address}`"
+    reply_markup = create_order_keyboard(order_id)
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
