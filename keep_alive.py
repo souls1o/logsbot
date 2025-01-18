@@ -16,7 +16,7 @@ def callback():
     value = data["value"]
     currency = data["currency"]
     txid = data["input_transaction_hash"]
-    confimations = data["confirmations"]
+    confirmations = data["confirmations"]
     
     transactions = get_all_transactions()
     
