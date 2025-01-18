@@ -65,7 +65,7 @@ def create_log(name, price, cost, product, category, type):
 def create_order(user_id, log_ids, logs):
     order_data = {
         "order_id": generate_id(8),
-        "transaction_id": generate_id(10),
+        "status": "paid"
         "info": {
             "user_id": user_id,
             "log_ids": log_ids,
@@ -79,11 +79,28 @@ def create_order(user_id, log_ids, logs):
     except Exception as e:
         print(f"[-] Failed to create order: {e}")
         
+def create_transaction(user_id, currency, txid):
+    order_data = {
+        "transaction_id": generate_id(10),
+        "info": {
+            "user_id": user_id,
+            "currency": currency,
+            "txid": txid
+        },
+        "timestamp": datetime.utcnow()
+    }
+    try:
+        orders.insert_one(order_data)
+        print(f'[+] Order ')
+    except Exception as e:
+        print(f"[-] Failed to create order: {e}")
+
+        
 def update_user(user_id, data):
     try:
         return users.update_one({"user_id": user_id}, {"$set": data})
     except Exception as e:
-        print(f"[-] Failed to retrieve user: {e}")
+        print(f"[-] Failed to update user: {e}")
         return None
         
 def get_user(user_id):
