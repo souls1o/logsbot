@@ -1,5 +1,6 @@
 import random
 import string
+import requests
 from telegram import Update
 
 def get_chat_id(update: Update) -> int:
@@ -36,17 +37,23 @@ def get_product(product):
     
     return products.get(product, "❓")
     
-def emojify(number):
-    digit_to_emoji = {
-        '0': '0️⃣',
-        '1': '1️⃣',
-        '2': '2️⃣',
-        '3': '3️⃣',
-        '4': '4️⃣',
-        '5': '5️⃣',
-        '6': '6️⃣',
-        '7': '7️⃣',
-        '8': '8️⃣',
-        '9': '9️⃣',
+def generate_address(user_id, ticker):
+    payload = {
+      "currency": ticker,
+      "callback": {
+        "method": "POST",
+        "url": "https://logsbot-irmb.onrender.com/callback",
+        "data": {
+          "user_id": user_id
+        }
+      }
     }
-    return ''.join(digit_to_emoji[digit] for digit in str(number))
+    
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    res = requests.post("https://apirone.com/api/v2/accounts/apr-e729d9982f079fa86b10a0e3aa6ff37b/addresses", json=payload, headers=headers)
+    if res.status_code == 200:
+        data = res.json()
+        return data["address"]
