@@ -79,21 +79,23 @@ def create_order(user_id, log_ids, logs):
     except Exception as e:
         print(f"[-] Failed to create order: {e}")
         
-def create_transaction(user_id, currency, txid):
-    order_data = {
+def create_transaction(user_id, value, currency, txid):
+    transaction_data = {
         "transaction_id": generate_id(10),
+        "status": "pending"
         "info": {
             "user_id": user_id,
+            "value": value,
             "currency": currency,
             "txid": txid
         },
         "timestamp": datetime.utcnow()
     }
     try:
-        orders.insert_one(order_data)
-        print(f'[+] Order ')
+        transactions.insert_one(transaction_data)
+        print(f'[+] Transaction ')
     except Exception as e:
-        print(f"[-] Failed to create order: {e}")
+        print(f"[-] Failed to create transaction: {e}")
 
         
 def update_user(user_id, data):
