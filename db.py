@@ -23,7 +23,14 @@ def test_connection():
 def create_user(user_id):
     user_data = {
         "user_id": user_id,
-        "balance": 15.75,
+        "addresses: {
+            "btc": "",
+            "ltc": ""
+        },
+        "balances: {
+            "btc": 0.00,
+            "ltc": 0.00
+        },
         "transactions": [],
         "cart": [],
         "orders": [],
@@ -55,13 +62,14 @@ def create_log(name, price, cost, product, category, type):
     except Exception as e:
         print(f"[-] Failed to create log: {e}")
 
-def create_order(user_id, logs):
+def create_order(user_id, log_ids, logs):
     order_data = {
         "order_id": generate_id(8),
+        "transaction_id": generate_id(10),
         "info": {
             "user_id": user_id,
-            "logs": logs,
-            "status": "paid"
+            "log_ids": log_ids,
+            "logs": logs
         },
         "timestamp": datetime.utcnow()
     }
