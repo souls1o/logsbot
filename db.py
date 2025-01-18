@@ -79,6 +79,13 @@ def create_order(user_id, log_ids, logs):
     except Exception as e:
         print(f"[-] Failed to create order: {e}")
         
+def update_user(user_id, data):
+    try:
+        return users.update_one({"user_id": user_id}, {"$set": data})
+    except Exception as e:
+        print(f"[-] Failed to retrieve user: {e}")
+        return None
+        
 def get_user(user_id):
     try:
         return users.find_one({"user_id": user_id})
