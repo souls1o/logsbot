@@ -32,6 +32,9 @@ def callback():
             update_transaction(transaction["transaction_id"], transaction)
     else:
         create_transaction(user_id, value, currency, txid)
+        
+    print(data)
+    return {"status": "received"}, 200
     
 def run():
   app.run(host='0.0.0.0', port=8080)
