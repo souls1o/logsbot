@@ -1,6 +1,6 @@
 import asyncio
 from collections import defaultdict
-from helpers import escape_markdown, get_emoji, get_product
+from helpers import escape_markdown, get_emoji, get_product, generate_address
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard
 
@@ -221,8 +221,6 @@ async def show_order(update, contexta, order_id):
     
 async def show_logs_file(update, context, order_id):
     chat_id = update.effective_chat.id
-    user_id = update.effective_user.id
-    message_id = context.user_data["message_id"]
     
     order = get_order(order_id)
     logs = order["info"]["logs"]
@@ -231,3 +229,28 @@ async def show_logs_file(update, context, order_id):
     
     with open(f"{order_id}.txt", "rb") as file:
         await context.bot.send_document(chat_id=chat_id, document=file)
+        
+async def show_deposit_addr(update, context, ticker):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    message_id = context.user_data["message_id"]
+    
+    types = {
+        "btc": {
+            "name": "Bitcoin"
+        },
+        "ltc": {
+            "name": "Litecoin"
+        }
+    }
+    
+    type = types[ticker]
+    name = type["name"]
+    ticker_up = ticker.upper()
+    
+    user = get_user(user_id)
+    address = user["addresses"][ticker]
+    if not address:
+        address = generate_address(ticker)
+    
+    text = f"*{name} Deposit*\n\n{ticker_up} Address: `{address}`"
