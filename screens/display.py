@@ -251,6 +251,6 @@ async def show_deposit_addr(update, context, ticker):
     user = get_user(user_id)
     address = user["addresses"][ticker]
     if not address:
-        address = generate_address(ticker)
+        address = generate_address(user_id, ticker)
     
     text = f"*{name} Deposit*\n\n{ticker_up} Address: `{address}`"
