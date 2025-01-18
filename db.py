@@ -23,11 +23,11 @@ def test_connection():
 def create_user(user_id):
     user_data = {
         "user_id": user_id,
-        "addresses: {
+        "addresses": {
             "btc": "",
             "ltc": ""
         },
-        "balances: {
+        "balances": {
             "btc": 0.00,
             "ltc": 0.00
         },
