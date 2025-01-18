@@ -9,7 +9,7 @@ def filter_text(text: str):
     return text.replace('_', '\\_').replace('-', '\\-').replace('.', '\\.').replace('!', '\\!').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]').replace('=', '\\=').replace('<', '\\<').replace('>', '\\>')
     
 def escape_markdown(text: str):
-    chars = r"[]()<>+-|.!#"
+    chars = r"[]()<+-|.!#"
     for char in chars:
         text = text.replace(char, f"\\{char}")
     return text
