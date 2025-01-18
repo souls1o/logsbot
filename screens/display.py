@@ -114,7 +114,6 @@ async def show_account(update, context):
             log = get_log(log_id)
             spent += log["price"]
     
-    balance = user["balance"]
     order_count = len(orders)
     
     reply_markup = create_account_keyboard()
