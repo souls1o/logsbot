@@ -105,6 +105,13 @@ def update_user(user_id, data):
         print(f"[-] Failed to update user: {e}")
         return None
         
+def update_transaction(transaction_id, data):
+    try:
+        return transactions.update_one({"transaction_id": transaction_id}, {"$set": data})
+    except Exception as e:
+        print(f"[-] Failed to update transaction: {e}")
+        return None
+        
 def get_user(user_id):
     try:
         return users.find_one({"user_id": user_id})
@@ -126,23 +133,19 @@ def get_order(order_id):
         print(f"[-] Failed to retrieve order: {e}")
         return None
         
+def get_transaction(transaction_id):
+    try:
+        return transactions.find_one({"transaction_id": transaction_id})
+    except Exception as e:
+        print(f"[-] Failed to retrieve transaction: {e}")
+        return None
+        
 def get_all_users():
     try:
         return list(users.find())
     except Exception as e:
         print(f"[-] Failed to retrieve all users: {e}")
         return []
-        
-def update_user(user_id, user_data):
-    try:
-        result = users.update_one(
-            {"user_id": user_id},
-            {"$set": user_data}
-        )
-        return result.modified_count > 0
-    except Exception as e:
-        print(f"[-] Failed to update user: {e}")
-        return False
         
 def get_all_logs():
     try:
