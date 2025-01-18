@@ -1,7 +1,7 @@
 import asyncio
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product, generate_address
-from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
+from db import create_user, update_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
 from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard
 
 parse_mode = "MarkdownV2"
