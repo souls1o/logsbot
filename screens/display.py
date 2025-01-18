@@ -1,3 +1,4 @@
+import asyncio
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product
 from db import create_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
