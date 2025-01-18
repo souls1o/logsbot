@@ -224,9 +224,7 @@ async def show_logs_file(update, context, order_id):
     order = get_order(order_id)
     logs = order["info"]["logs"]
     
-    with open(f"{order_id}.txt") as file:
-        for log in logs:
-            file.write(log + "\n")
+    await asyncio.to_thread(lambda: open(f"{order_id}.txt", "w").write("\n".join(logs) + "\n"))
     
     with open(f"{order_id}.txt", "rb") as file:
         await context.bot.send_document(chat_id=chat_id, document=file)
