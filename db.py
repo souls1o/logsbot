@@ -65,7 +65,7 @@ def create_log(name, price, cost, product, category, type):
 def create_order(user_id, log_ids, logs):
     order_data = {
         "order_id": generate_id(8),
-        "status": "paid"
+        "status": "paid",
         "info": {
             "user_id": user_id,
             "log_ids": log_ids,
@@ -82,7 +82,7 @@ def create_order(user_id, log_ids, logs):
 def create_transaction(user_id, value, currency, txid):
     transaction_data = {
         "transaction_id": generate_id(10),
-        "status": "pending"
+        "status": "pending",
         "info": {
             "user_id": user_id,
             "value": value,
@@ -159,6 +159,13 @@ def get_all_orders():
         return list(orders.find())
     except Exception as e:
         print(f"[-] Failed to retrieve all orders: {e}")
+        return []
+        
+def get_all_transactions():
+    try:
+        return list(transactions.find())
+    except Exception as e:
+        print(f"[-] Failed to retrieve all transactions: {e}")
         return []
 
 def create_or_update_user(user_id, user_data):
