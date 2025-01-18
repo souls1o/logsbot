@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, request
 from threading import Thread
-from db import get_user, update_user, get_transaction, create_transaction, update_transaction
+from db import get_user, update_user, get_transaction, create_transaction, update_transaction, get_all_transactions
 
 app = Flask(__name__)
 
