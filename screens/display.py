@@ -222,12 +222,25 @@ async def show_logs_file(update, context, order_id):
     chat_id = update.effective_chat.id
     
     order = get_order(order_id)
+    log_ids = order["info"]["log_ids"]
     logs = order["info"]["logs"]
     
-    await asyncio.to_thread(lambda: open(f"{order_id}.txt", "w").write("\n".join(logs) + "\n"))
+    file_infos = {}
+    for i, log_id in enumerate(log_ids):
+        if log_id not in file_infos:
+            log = get_log(log_id)
+            filename = log["filename"]
+            file_infos[log_id] = {"filename": filename, "logs": []}
+        file_infos[log_id]["logs"] += logs[i]
     
-    with open(f"{order_id}.txt", "rb") as file:
-        await context.bot.send_document(chat_id=chat_id, document=file)
+    for file_info in file_infos:
+        filename = file_info["filename"]
+        file_logs = file_info["logs]
+        
+        await asyncio.to_thread(lambda: open(f"{order_id}_{filename}.txt", "w").write("\n".join(file_logs) + "\n"))
+    
+        with open(f"{order_id}_{filename}.txt", "rb") as file:
+            await context.bot.send_document(chat_id=chat_id, document=file)
         
 async def show_deposit(update, context):
     chat_id = update.effective_chat.id
