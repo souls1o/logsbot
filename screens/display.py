@@ -2,7 +2,7 @@ import asyncio
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product, generate_address
 from db import create_user, update_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
-from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard, create_deposit_keyboard, create_addr_keyboard
+from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard, create_deposit_keyboard, create_addr_keyboard, create_options_keyboard
 
 parse_mode = "MarkdownV2"
 
@@ -82,12 +82,15 @@ async def show_options(update, context, product):
     
     cat_emoji = None
     
+    log_ids = []
     for log in logs:
         log_product = log.get("product")
         if log_product == product:
             log_id = log.get("log_id")
             log_name = log.get("name")
             log_price = log.get("price")
+            
+            log_ids.append(log_id)
             
             if cat_emoji == None:
                 cat_emoji = get_emoji(log.get("category"))
@@ -97,7 +100,9 @@ async def show_options(update, context, product):
     logs_display = "\n\n".join(log_texts)
     pro = product.replace(">", "\\>")
     text = escape_markdown(f"{cat_emoji} *{pro}*\n\n{logs_display}")
-    await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode)
+    
+    reply_markup = create_options_keyboard(log_ids)
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
 async def show_account(update, context):
     chat_id = update.effective_chat.id
