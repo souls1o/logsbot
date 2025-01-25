@@ -22,7 +22,7 @@ def create_account_logs_keyboard(products):
     row = []
         
     for i, product in enumerate(products):
-        product_data = re.sub(r'[^A-Za-z]', ' ', product).lower().replace(' ', '_')
+        product_data = re.sub(r'[^A-Za-z]', '', product).lower()
         row.append(InlineKeyboardButton(product, callback_data=f"product_{product_data}"))
         
         if (i + 1) % 2 == 0:
