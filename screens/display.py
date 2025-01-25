@@ -101,7 +101,7 @@ async def show_options(update, context, product):
     pro = product.replace(">", "\\>")
     text = escape_markdown(f"{cat_emoji} *{pro}*\n\n{logs_display}")
     
-    reply_markup = create_options_keyboard(log_ids)
+    reply_markup = create_options_keyboard(log_ids, product)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
 async def show_account(update, context):
