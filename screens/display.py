@@ -45,7 +45,7 @@ async def show_account_logs(update, context):
     product_info = defaultdict(lambda: {"price": float('inf'), "category": None})
     
     for log in logs:
-        product = log.get("product")
+        product = log.get("product").replace("<", "\\<").replace(">", "\\>")
         category = log.get("category")
         price = log.get("price", float('inf'))
 
