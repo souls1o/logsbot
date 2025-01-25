@@ -78,6 +78,24 @@ def create_order_keyboard(order_id):
     ]
     return InlineKeyboardMarkup(keyboard)
     
+def create_options_keyboard(log_ids, product_data):
+    keyboard = []
+    row = []
+        
+    for i, log_id in enumerate(log_ids):
+        row.append(InlineKeyboardButton(f"[{log_id}]", callback_data=f"option_{log_id}"))
+        
+        if (i + 1) % 2 == 0:
+            keyboard.append(row)
+            row = []
+            
+    if row:
+        keyboard.append(row)
+        
+    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data=f"product_{product_data}")])
+    
+    return InlineKeyboardMarkup(keyboard)
+    
 def create_addr_keyboard():
     keyboard = [
         [InlineKeyboardButton("⬅️ Back", callback_data="depo")]
