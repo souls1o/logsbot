@@ -76,7 +76,9 @@ async def show_options(update, context, product):
     message_id = context.user_data["message_id"]
     
     user = get_user(user_id)
+    await context.bot.send_message(chat_id, text=product)
     product = get_product(product)
+    await context.bot.send_message(chat_id, text=product)
     logs = get_all_logs()
     log_texts = []
     
