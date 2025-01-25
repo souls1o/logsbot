@@ -232,7 +232,7 @@ async def show_logs_file(update, context, order_id):
             file_infos[log_id] = {"filename": filename, "logs": []}
         file_infos[log_id]["logs"] += logs[i]
     
-    for file_info in file_infos:
+    for file_info in file_infos.values():
         filename = file_info["filename"]
         file_logs = file_info["logs"]
         
