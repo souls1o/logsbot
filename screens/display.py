@@ -235,7 +235,7 @@ async def show_logs_file(update, context, order_id):
     
     for file_info in file_infos:
         filename = file_info["filename"]
-        file_logs = file_info["logs]
+        file_logs = file_info["logs"]
         
         await asyncio.to_thread(lambda: open(f"{order_id}_{filename}.txt", "w").write("\n".join(file_logs) + "\n"))
     
