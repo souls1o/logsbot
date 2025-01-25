@@ -133,7 +133,6 @@ async def show_orders(update, context):
     for i, order_id in enumerate(orders, start=1):
         order = get_order(order_id)
         
-        transaction_id = order["transaction_id"]
         order_id = order["order_id"]
         logs = order["info"]["log_ids"]
         timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
