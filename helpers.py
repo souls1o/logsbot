@@ -29,9 +29,9 @@ def get_emoji(category):
     
 def get_product(product):
     products = {
-        "fa_hotmail": "FA (Hotmail)",
+        "fahotmail": "FA (Hotmail)",
         "subway": "Subway",
-        "starbucks_gc_no_pin": "Starbucks <GC NO-PIN>",
+        "starbucksgcnopin": "Starbucks <GC NO-PIN>",
         "starbucks": "Starbucks"
     }
     
