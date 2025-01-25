@@ -230,7 +230,7 @@ async def show_logs_file(update, context, order_id):
             log = get_log(log_id)
             filename = log["filename"]
             file_infos[log_id] = {"filename": filename, "logs": []}
-        file_infos[log_id]["logs"] += logs[i]
+        file_infos[log_id]["logs"].append(logs[i])
     
     for file_info in file_infos.values():
         filename = file_info["filename"]
