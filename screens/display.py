@@ -179,7 +179,7 @@ async def show_orders(update, context):
     reply_markup = create_orders_keyboard(orders)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
-async def show_order(update, contexta, order_id):
+async def show_order(update, context, order_id):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
     message_id = context.user_data["message_id"]
