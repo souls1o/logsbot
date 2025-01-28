@@ -82,10 +82,10 @@ def create_options_keyboard(log_ids, product_data):
     keyboard = []
     row = []
         
-    for i, log_id in enumerate(log_ids):
-        row.append(InlineKeyboardButton(f"[{log_id}]", callback_data=f"option_{log_id}"))
+    for i, log_id in enumerate(log_ids, start=1):
+        row.append(InlineKeyboardButton(f"{i}", callback_data=f"option_{log_id}"))
         
-        if (i + 1) % 2 == 0:
+        if i % 3 == 0:
             keyboard.append(row)
             row = []
             
