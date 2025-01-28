@@ -80,10 +80,8 @@ async def show_options(update, context, product):
     logs = get_all_logs()
     log_texts = []
     
-    cat_emoji = None
-    
     log_ids = []
-    for log in logs:
+    for i, log in enumerate(logs, start=1):
         log_product = log.get("product")
         if log_product == product:
             log_id = log.get("log_id")
@@ -91,11 +89,7 @@ async def show_options(update, context, product):
             log_price = log.get("price")
             
             log_ids.append(log_id)
-            
-            if cat_emoji == None:
-                cat_emoji = get_emoji(log.get("category"))
-            
-            log_texts.append(f"> {cat_emoji} *$__{log_price:.2f}__ | {log_name}*\n> #️⃣ _{log_id}_")
+            log_texts.append(f"> `{i}` $_{log_price:.2f}_ | *{log_name}*")
             
     logs_display = "\n\n".join(log_texts)
     pro = product.replace(">", "\\>")
