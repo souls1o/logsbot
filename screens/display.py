@@ -104,6 +104,21 @@ async def show_options(update, context, product):
     reply_markup = create_options_keyboard(log_ids, product)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
+async def show_option(update, context, option):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    message_id = context.user_data["message_id"]
+    
+    log = get_log(option)
+    emoji = get_emoji(log["category"])
+    product = escape_markdown(log["product"]).replace(">", "\\>")
+    name = escape_markdown(log["name"])
+    desc = escape_markdown(log["desc"])
+    
+    reply_markup = create_option_keyboard(option)
+    text = f"{emoji} *{product}* | _{name}_\n\n❔*Description:*\n{desc}"
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    
 async def show_account(update, context):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
