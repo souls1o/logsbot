@@ -114,8 +114,13 @@ async def show_option(update, context, option):
     product = escape_markdown(log["product"]).replace(">", "\\>")
     name = escape_markdown(log["name"])
     desc = escape_markdown(log["desc"])
+    price = log["price"]
     
-    reply_markup = create_option_keyboard(option)
+    user = get_user(user_id)
+    cart = user["cart"]
+    cart.count(option)
+    
+    reply_markup = create_option_keyboard(option, price, count)
     text = f"{emoji} *{product}* \\| _{name}_\n\n❔*Description:*\n{desc}"
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
