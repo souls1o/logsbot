@@ -118,7 +118,7 @@ async def show_option(update, context, option):
     
     user = get_user(user_id)
     cart = user["cart"]
-    cart.count(option)
+    count = cart.count(option)
     
     reply_markup = create_option_keyboard(option, price, count)
     text = f"{emoji} *{product}* \\| _{name}_\n\n❔*Description:*\n{desc}"
