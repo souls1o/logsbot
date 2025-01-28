@@ -97,8 +97,9 @@ def create_options_keyboard(log_ids, product_data):
     return InlineKeyboardMarkup(keyboard)
     
 def create_option_keyboard(log_id, price, count):
+    total_price = price * count if count is not 0
     keyboard = [
-        [InlineKeyboardButton("➕", callback_data=f"add_cart_{log_id}"), InlineKeyboardButton(f"${price:.2f} ({count})", callback_data="none"), InlineKeyboardButton("➖", callback_data=f"remove_cart_{log_id}")],
+        [InlineKeyboardButton("➕", callback_data=f"add_cart_{log_id}"), InlineKeyboardButton(f"${total_price:.2f} ({count})", callback_data="none"), InlineKeyboardButton("➖", callback_data=f"remove_cart_{log_id}")],
         [InlineKeyboardButton("⬅️ Back", callback_data="depo")]
     ]
     return InlineKeyboardMarkup(keyboard)
