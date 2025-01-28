@@ -35,7 +35,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         log_id = query.data.split("_", 1)[1]
         await show_option(update, context, log_id)
     elif query.data.startswith("add_cart_"):
-        log_id = query.data.split("_", 1)[2]
+        log_id = query.data.split("cart_", 1)[1]
         
         user = get_user(update.effective_user.id)
         user["cart"].append(log_id)
@@ -43,7 +43,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         await show_option(update, context, log_id)
     elif query.data.startswith("remove_cart_"):
-        log_id = query.data.split("_", 1)[2]
+        log_id = query.data.split("cart_", 1)[1]
         
         user = get_user(update.effective_user.id)
         if log_id in user["cart"]:
