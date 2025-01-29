@@ -148,6 +148,42 @@ async def show_account(update, context):
     text = f"👤 *Account*\n\n> 🛒 *Total Spent:* $_{spent:.2f}_\n> 📦 *Total Orders:* _{order_count}_".replace(".", "\\.")
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
+async def show_cart(update, context):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    message_id = context.user_data["message_id"]
+
+    user = get_user(user_id)
+    cart = user["cart"]
+    cost = 0.00
+    
+    log_infos = {}
+    for log_id in cart:
+        log = get_log(log_id)
+        cost += log["price"]
+        if log_id not in log_infos:
+                log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
+            else:
+                log_infos[log_id]["price"] += log["price"]
+            log_infos[log_id]["quantity"] += 1
+            
+    log_texts = []
+    log_values = list(log_infos.values())
+    for log_info in log_values:
+        name = log_info["name"]
+        product = log_info["product"].replace(">", "\\>")
+        emoji = log_info["emoji"]
+        quantity = log_info["quantity"]
+        price = log_info["price"]
+        log_texts.append(f"> {emoji} *{product}* | {name} – _x{quantity}_ ($*{price:.2f}*)")
+    
+    items_display = "\n".join(log_texts)
+    
+    no_items = "> _Nothing to see here... 👀_"
+    text = escape_markdown(f"🛒 *Cart Items*\n\n{items_display if cart else no_items}\n\n💲 *Total:* __${cost:.2f}__")
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode)
+
+    
 async def show_orders(update, context):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
