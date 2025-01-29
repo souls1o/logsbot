@@ -107,7 +107,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             
             update_log(log_id, log)
             
-        order = create_order(update.effective_user.id, user["cart"], log_values)
+        order = create_order(update.effective_user.id, cost, user["cart"], log_values)
         order_id = order["order_id"]
         
         user["orders"].append(order_id)
