@@ -1,11 +1,12 @@
+import requests
 from telegram import Update
 from telegram.ext import CallbackQueryHandler, ContextTypes
 from db import get_user, update_user
 from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options, show_logs_file, show_deposit, show_deposit_addr, show_option, show_cart
+from helpers import get_price
 
 async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
     
     if query.data == "main_menu":
         await show_main_menu(update, context)
@@ -53,6 +54,39 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             update_user(update.effective_user.id, user)
         
         await show_option(update, context, log_id)
+    elif query.data.startswith("purchase"):
+        user = get_user(update.effective_user.id)
+        cost = sum(get_log(log_id)["price"] for log_id in user["cart"])
+            
+        btc_balance = user["balance"].get("btc")
+        ltc_balance = user["balance"].get("ltc")
+        
+        btc_usd = btc_balance * get_price("btc") if btc_balance else 0
+        ltc_usd = ltc_balance * get_price("ltc") if ltc_balance else 0
+        total_usd = btc_usd + ltc_usd
+        
+        if total_usd < cost:
+            await query.answer("❌ Insufficient balance", show_alert=True)
+            return
+            
+        half_cost = cost / 2
+        
+        btc_used = min(half_cost, btc_usd)
+        remaining = half_cost - btc_used
+        
+        ltc_used = min(half_cost + remaining, ltc_usd)
+        
+        if ltc_used < (half_cost + remaining):
+            btc_used += (half_cost + remaining) - ltc_used
+            
+        btc_deducted = btc_used / btc_price if btc_price else 0
+        ltc_deducted = ltc_used / ltc_price if ltc_price else 0
+    
+        user["balance"]["btc"] -= btc_deducted
+        user["balance"]["ltc"] -= ltc_deducted
+        
+        update_user(update.effective_user.id, user)
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Purchase successful!")
     
 def get_handler():
     return CallbackQueryHandler(menu_handler)
