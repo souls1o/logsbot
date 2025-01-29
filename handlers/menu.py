@@ -114,7 +114,8 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user["cart"] = []
         update_user(update.effective_user.id, user)
         
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Purchase successful! Order #{order_id}")
+        await query.answer("✅ Purchase successful!")
+        await show_order(update, context, order_id)
     
 def get_handler():
     return CallbackQueryHandler(menu_handler)
