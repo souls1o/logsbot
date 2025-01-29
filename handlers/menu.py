@@ -98,21 +98,22 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user["balances"]["btc"] -= btc_deducted
         user["balances"]["ltc"] -= ltc_deducted
         
-        log_values = {}
+        log_values = []
         
         for log_id in user["cart"]:
             log = get_log(log_id)
             value = log["logs"].pop(0)
-            if log_id not in log_values:
-                log_values[log_id] = {"logs": [value]}
-            else:
-                log_values[log_id]["logs"].append(value)
+            log_values.append(value)
+            
             update_log(log_id, log)
+            
+        order = create_order(user_id, user["cart"], log_values)
+        order_id = order["order_id"]
         
         user["cart"] = []
         update_user(update.effective_user.id, user)
         
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Purchase successful!")
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Purchase successful! Order #{order_id}")
     
 def get_handler():
     return CallbackQueryHandler(menu_handler)
