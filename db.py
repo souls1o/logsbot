@@ -105,6 +105,13 @@ def update_user(user_id, data):
         print(f"[-] Failed to update user: {e}")
         return None
         
+def update_log(log_id, data):
+    try:
+        return logs.update_one({"log_id": log_id}, {"$set": data})
+    except Exception as e:
+        print(f"[-] Failed to update log: {e}")
+        return None
+        
 def update_transaction(transaction_id, data):
     try:
         return transactions.update_one({"transaction_id": transaction_id}, {"$set": data})
