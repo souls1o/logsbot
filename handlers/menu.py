@@ -1,7 +1,7 @@
 import requests
 from telegram import Update
 from telegram.ext import CallbackQueryHandler, ContextTypes
-from db import get_user, update_user
+from db import get_user, update_user, get_log
 from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options, show_logs_file, show_deposit, show_deposit_addr, show_option, show_cart
 from helpers import get_price
 
