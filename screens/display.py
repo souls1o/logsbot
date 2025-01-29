@@ -3,7 +3,7 @@ import asyncio
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product, generate_address
 from db import create_user, update_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
-from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard, create_deposit_keyboard, create_addr_keyboard, create_options_keyboard, create_option_keyboard
+from keyboards.dynamic import create_account_keyboard, create_main_menu_keyboard, create_menu_keyboard, create_account_logs_keyboard, create_orders_keyboard, create_order_keyboard, create_deposit_keyboard, create_addr_keyboard, create_options_keyboard, create_option_keyboard, create_cart_keyboard
 
 parse_mode = "MarkdownV2"
 
@@ -183,7 +183,9 @@ async def show_cart(update, context):
     
     no_items = "> _Nothing to see here... 👀_"
     text = escape_markdown(f"🛒 *Cart Items*\n\n{items_display if cart else no_items}\n\n💲 *Total:* __${cost:.2f}__")
-    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode)
+    
+    reply_markup = create_cart_keyboard()
+    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
 
     
 async def show_orders(update, context):
