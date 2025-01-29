@@ -56,8 +56,20 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_option(update, context, log_id)
     elif query.data.startswith("purchase"):
         user = get_user(update.effective_user.id)
-        cost = sum(get_log(log_id)["price"] for log_id in user["cart"])
+        cost = 0.00
+        log_counts = {}
+        
+        for log_id in user["cart"]:
+            log = get_log(log_id)
+            log_counts[log_id] = log_counts.get(log_id, 0) + 1
+            cost += log["price"]
             
+        for log_id, count in log_counts.items():
+            log = get_log(log_id)
+            if len(log["logs"]) < count:
+                await query.answer(f"❌ Not enough logs available for {log_id}! Required: {count}, Available: {len(log['logs'])}", show_alert=True)
+                return
+                        
         btc_balance = user["balances"].get("btc")
         ltc_balance = user["balances"].get("ltc")
         
@@ -73,10 +85,8 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
             
         half_cost = cost / 2
-        
         btc_used = min(half_cost, btc_usd)
         remaining = half_cost - btc_used
-        
         ltc_used = min(half_cost + remaining, ltc_usd)
         
         if ltc_used < (half_cost + remaining):
@@ -88,7 +98,20 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user["balances"]["btc"] -= btc_deducted
         user["balances"]["ltc"] -= ltc_deducted
         
+        log_values = {}
+        
+        for log_id in user["cart"]:
+            log = get_log(log_id)
+            value = log["logs"].pop(0)
+            if log_id not in log_values:
+                log_values[log_id] = {"logs": [value]}
+            else:
+                log_values[log_id]["logs"].append(value)
+            update_log(log_id, log)
+        
+        user["cart"] = []
         update_user(update.effective_user.id, user)
+        
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Purchase successful!")
     
 def get_handler():
