@@ -104,6 +104,13 @@ def create_option_keyboard(product, log_id, price, count):
     ]
     return InlineKeyboardMarkup(keyboard)
     
+def create_cart_keyboard():
+    keyboard = [
+        [InlineKeyboardButton("✅ Purchase", callback_data="purchase")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
+    ]
+    return InlineKeyboardMarkup(keyboard)
+    
 def create_addr_keyboard():
     keyboard = [
         [InlineKeyboardButton("⬅️ Back", callback_data="depo")]
