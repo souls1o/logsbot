@@ -95,7 +95,7 @@ async def show_options(update, context, name):
                 cat_emoji = get_emoji(log["category"])
             
             log_ids.append(log_id)
-            log_texts.append(f"> \\[`{i}`\\] *{log_name}* | $_{log_price:.2f}_")
+            log_texts.append(f"> \\[`{index}`\\] *{log_name}* | $_{log_price:.2f}_")
             index += 1
             
     logs_display = "\n".join(log_texts)
