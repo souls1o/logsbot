@@ -78,7 +78,7 @@ def create_order_keyboard(order_id):
     ]
     return InlineKeyboardMarkup(keyboard)
     
-def create_options_keyboard(log_ids, product_data):
+def create_options_keyboard(log_ids):
     keyboard = []
     row = []
         
@@ -92,15 +92,15 @@ def create_options_keyboard(log_ids, product_data):
     if row:
         keyboard.append(row)
         
-    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data=f"product_{product_data}")])
+    keyboard.append([InlineKeyboardButton("⬅️ Back", callback_data="logs_account")])
     
     return InlineKeyboardMarkup(keyboard)
     
-def create_option_keyboard(log_id, price, count):
+def create_option_keyboard(product, log_id, price, count):
     total_price = price * count if count is not 0 else price
     keyboard = [
         [InlineKeyboardButton("➕", callback_data=f"add_cart_{log_id}"), InlineKeyboardButton(f"${total_price:.2f} ({count})", callback_data="none"), InlineKeyboardButton("➖", callback_data=f"remove_cart_{log_id}")],
-        [InlineKeyboardButton("⬅️ Back", callback_data="depo")]
+        [InlineKeyboardButton("⬅️ Back", callback_data=f"product_{product}")]
     ]
     return InlineKeyboardMarkup(keyboard)
     
