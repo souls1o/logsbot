@@ -162,10 +162,10 @@ async def show_cart(update, context):
         log = get_log(log_id)
         cost += log["price"]
         if log_id not in log_infos:
-                log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
-            else:
-                log_infos[log_id]["price"] += log["price"]
-            log_infos[log_id]["quantity"] += 1
+            log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
+        else:
+            log_infos[log_id]["price"] += log["price"]
+        log_infos[log_id]["quantity"] += 1
             
     log_texts = []
     log_values = list(log_infos.values())
