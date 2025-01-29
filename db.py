@@ -75,9 +75,11 @@ def create_order(user_id, log_ids, logs):
     }
     try:
         orders.insert_one(order_data)
+        return order_data
         print(f'[+] Order ')
     except Exception as e:
         print(f"[-] Failed to create order: {e}")
+        return Nons
         
 def create_transaction(user_id, value, currency, txid):
     transaction_data = {
