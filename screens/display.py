@@ -70,13 +70,13 @@ async def show_account_logs(update, context):
     reply_markup = create_account_logs_keyboard(products_with_emojis)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
-async def show_options(update, context, name):
+async def show_options(update, context, product_data):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
     message_id = context.user_data["message_id"]
     
     user = get_user(user_id)
-    product = get_product(name)
+    product = get_product(product_data)
     logs = get_all_logs()
     log_texts = []
     
@@ -95,14 +95,14 @@ async def show_options(update, context, name):
                 cat_emoji = get_emoji(log["category"])
             
             log_ids.append(log_id)
-            log_texts.append(f"> \\[`{index}`\\] *{log_name}* | $_{log_price:.2f}_")
+            log_texts.append(f"> [`{index}`] *{log_name}* | $_{log_price:.2f}_")
             index += 1
             
     logs_display = "\n".join(log_texts)
     pro = product.replace(">", "\\>")
     text = escape_markdown(f"{cat_emoji} *{pro}*\n\n{logs_display}")
     
-    reply_markup = create_options_keyboard(log_ids, name)
+    reply_markup = create_options_keyboard(log_ids)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
 async def show_option(update, context, option):
@@ -113,6 +113,7 @@ async def show_option(update, context, option):
     log = get_log(option)
     emoji = get_emoji(log["category"])
     product = escape_markdown(log["product"]).replace(">", "\\>")
+    product_data = re.sub(r'[^A-Za-z]', '', log["product"]).lower()
     name = escape_markdown(log["name"])
     desc = escape_markdown(log["desc"])
     price = log["price"]
@@ -121,7 +122,7 @@ async def show_option(update, context, option):
     cart = user["cart"]
     count = cart.count(option)
     
-    reply_markup = create_option_keyboard(option, price, count)
+    reply_markup = create_option_keyboard(product_data, option, price, count)
     text = f"{emoji} *{product}* \\| _{name}_\n\n❔*Description:*\n{desc}"
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
