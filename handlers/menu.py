@@ -61,8 +61,11 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         btc_balance = user["balances"].get("btc")
         ltc_balance = user["balances"].get("ltc")
         
-        btc_usd = btc_balance * get_price("btc") if btc_balance else 0
-        ltc_usd = ltc_balance * get_price("ltc") if ltc_balance else 0
+        btc_price = get_price("btc")
+        ltc_price = get_price("ltc")
+        
+        btc_usd = btc_balance * btc_price if btc_balance else 0
+        ltc_usd = ltc_balance * ltc_price if ltc_balance else 0
         total_usd = btc_usd + ltc_usd
         
         if total_usd < cost:
