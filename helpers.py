@@ -57,3 +57,10 @@ def generate_address(user_id, ticker):
     if res.status_code == 200:
         data = res.json()
         return data["address"]
+        
+def get_price(crypto: str):
+    """Fetch the current USD price for BTC or LTC."""
+    url = f"https://apirone.com/api/v2/ticker?currency={crypto}&fiat=usd"
+    response = requests.get(url)
+    data = response.json()
+    return data.get("usd", 0)
