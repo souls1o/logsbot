@@ -114,7 +114,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user["cart"] = []
         update_user(update.effective_user.id, user)
         
-        await query.answer("✅ Purchase successful!")
+        await query.answer("✅ Purchase successful!", show_alert=True)
         await show_order(update, context, order_id)
     
 def get_handler():
