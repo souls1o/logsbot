@@ -58,8 +58,8 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user = get_user(update.effective_user.id)
         cost = sum(get_log(log_id)["price"] for log_id in user["cart"])
             
-        btc_balance = user["balance"].get("btc")
-        ltc_balance = user["balance"].get("ltc")
+        btc_balance = user["balances"].get("btc")
+        ltc_balance = user["balances"].get("ltc")
         
         btc_usd = btc_balance * get_price("btc") if btc_balance else 0
         ltc_usd = ltc_balance * get_price("ltc") if ltc_balance else 0
@@ -82,8 +82,8 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         btc_deducted = btc_used / btc_price if btc_price else 0
         ltc_deducted = ltc_used / ltc_price if ltc_price else 0
     
-        user["balance"]["btc"] -= btc_deducted
-        user["balance"]["ltc"] -= ltc_deducted
+        user["balances"]["btc"] -= btc_deducted
+        user["balances"]["ltc"] -= ltc_deducted
         
         update_user(update.effective_user.id, user)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Purchase successful!")
