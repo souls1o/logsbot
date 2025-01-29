@@ -1,3 +1,4 @@
+import re
 import asyncio
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product, generate_address
