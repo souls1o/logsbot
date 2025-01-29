@@ -57,10 +57,10 @@ def create_orders_keyboard(orders):
     keyboard = []
     row = []
         
-    for i, order in enumerate(orders):
+    for i, order in enumerate(orders, start=1):
         row.append(InlineKeyboardButton(f"[{order}]", callback_data=f"order_{order}"))
         
-        if (i + 1) % 2 == 0:
+        if i % 3 == 0:
             keyboard.append(row)
             row = []
             
