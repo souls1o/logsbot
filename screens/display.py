@@ -273,7 +273,7 @@ async def show_order(update, context, order_id):
     log_texts = []
     for log_info in log_values:
         name = log_info["name"]
-        product = log_info["product"]
+        product = log_info["product"].replace(">", "\\>")
         emoji = log_info["emoji"]
         quantity = log_info["quantity"]
         price = log_info["price"]
