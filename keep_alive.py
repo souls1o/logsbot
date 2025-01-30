@@ -14,17 +14,19 @@ def callback():
     data = request.json
     user_id = data["data"]["user_id"]
     value = data["value"]
+    amount = value/100000000
     currency = data["currency"]
     txid = data["input_transaction_hash"]
     confirmations = data["confirmations"]
     
     transactions = get_all_transactions()
     
+    curr_up = currency.upper()
+    
     transaction = next((tx for tx in transactions if tx["info"]["txid"] == txid), None)
     if transaction:
         if transaction["status"] != "confirmed" and confirmations >= 1:
             user = get_user(user_id)
-            amount = value/100000000
             user["balances"][currency] += amount
             user["transactions"].append(transaction["transaction_id"])
             update_user(user_id, user)
@@ -32,7 +34,6 @@ def callback():
             transaction["status"] = "confirmed"
             update_transaction(transaction["transaction_id"], transaction)
             
-            curr_up = currency.upper()
             message = (
               f"✅ *Payment Confirmed*\n\n"
               f"_Your payment of *{amount} {curr_up}* has successfully confirmed._"
