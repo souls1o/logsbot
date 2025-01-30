@@ -52,7 +52,7 @@ async def show_admin_stats(update, context):
     orders_count = len(orders)
     gross_revenue = sum(order["paid"] for order in orders)
     total_costs = sum(order["cost"] for order in orders)
-    gross_profit = gross_revenue - costs
+    gross_profit = gross_revenue - total_costs
     
     today = datetime.utcnow().date()
     days_since_sunday = today.weekday() + 1
