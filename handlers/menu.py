@@ -57,6 +57,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data.startswith("purchase"):
         user = get_user(update.effective_user.id)
         cost = 0.00
+        spent = 0.00
         log_counts = {}
         
         for log_id in user["cart"]:
@@ -82,6 +83,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         if total_usd < cost:
             await query.answer("❌ Insufficient balance", show_alert=True)
+            await show_deposit(update, context)
             return
             
         half_cost = cost / 2
@@ -102,12 +104,13 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         for log_id in user["cart"]:
             log = get_log(log_id)
+            spent += log["cost"]
             value = log["logs"].pop(0)
             log_values.append(value)
             
             update_log(log_id, log)
             
-        order = create_order(update.effective_user.id, cost, user["cart"], log_values)
+        order = create_order(update.effective_user.id, cost, spent, user["cart"], log_values)
         order_id = order["order_id"]
         
         user["orders"].append(order_id)
