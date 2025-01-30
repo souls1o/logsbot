@@ -48,7 +48,7 @@ def callback():
               "parse_mode": "MarkdownV2"
             }
             
-            requests.post("https://api.telegram.org/bot7845815456:AAE3qpHwyUj21VX32_k4XiwoajLVGsxxdBc/sendMessage", json=payload)
+            requests.post("https://api.telegram.org/bot7603587678:AAHvRhm7eMVpOj-jG3sLhDeEamjrnwt-GFU/sendMessage", json=payload)
     else:
         create_transaction(user_id, value, currency, txid)
         
@@ -63,7 +63,7 @@ def callback():
           "parse_mode": "MarkdownV2"
         }
             
-        requests.post("https://api.telegram.org/bot7845815456:AAE3qpHwyUj21VX32_k4XiwoajLVGsxxdBc/sendMessage", json=payload)
+        requests.post("https://api.telegram.org/bot7603587678:AAHvRhm7eMVpOj-jG3sLhDeEamjrnwt-GFU/sendMessage", json=payload)
         
     return {"status": "received"}, 200
     
