@@ -53,9 +53,20 @@ def create_deposit_keyboard():
     ]
     return InlineKeyboardMarkup(keyboard)
     
-def create_orders_keyboard(orders):
+def create_orders_keyboard(orders, page, total_pages):
     keyboard = []
     row = []
+    buttons = []
+    
+    if page > 1:
+        buttons.append(InlineKeyboardButton("← Prev", callback_data=f"orders_page_{page - 1}"))
+        
+    buttons.append(InlineKeyboardButton(f"📄 {page}/{total_pages}", callback_data="none"))
+        
+    if page < total_pages:
+        buttons.append(InlineKeyboardButton("Next →", callback_data=f"orders_page_{page + 1}"))
+        
+    keyboard.append(buttons)
         
     for i, order in enumerate(orders, start=1):
         row.append(InlineKeyboardButton(f"[{order}]", callback_data=f"order_{order}"))
