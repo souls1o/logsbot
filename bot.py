@@ -1,7 +1,7 @@
 import os
 from db import test_connection
 from telegram.ext import Application
-from handlers import start, menu
+from handlers import start, menu, adminstats
 from keep_alive import keep_alive
 
 keep_alive()
