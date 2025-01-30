@@ -65,11 +65,11 @@ async def show_admin_stats(update, context):
 
     start_of_month = now.replace(day=1)
     
-    today_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() == now]
-    daily_revenue = sum(order["paid"] for order in today_orders)
-    daily_cost = sum(order["cost"] for order in today_orders)
+    daily_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() == now]
+    daily_revenue = sum(order["paid"] for order in daily_orders)
+    daily_cost = sum(order["cost"] for order in daily_orders)
     daily_profit = daily_revenue - daily_cost
-    today_ordrs = len(today_orders)
+    daily_ordrs = len(daily_orders)
 
     weekly_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() >= start_of_week]
     weekly_revenue = sum(order["paid"] for order in weekly_orders)
