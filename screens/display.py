@@ -1,5 +1,6 @@
 import re
 import asyncio
+import pytz
 from datetime import datetime, timedelta
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product, generate_address
@@ -54,34 +55,45 @@ async def show_admin_stats(update, context):
     total_costs = sum(order["cost"] for order in orders)
     gross_profit = gross_revenue - total_costs
     
-    today = datetime.utcnow().date()
-    days_since_sunday = today.weekday() + 1
-    last_sunday = today - timedelta(days=days_since_sunday % 7)
-
-    first_day_of_month = today.replace(day=1)
+    tz = pytz.timezone("America/Los_Angeles")
+    now = datetime.now(tz).date()
     
-    daily_revenue = sum(order["paid"] for order in orders if order["timestamp"].date() == today)
-    daily_cost = sum(order["cost"] for order in orders if order["timestamp"].date() == today)
+    today_weekday = now.weekday()
+    start_of_week = now - timedelta(days=today_weekday + 1) if today_weekday != 6 else now
+
+    start_of_month = now.replace(day=1)
+    
+    today_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() == now]
+    daily_revenue = sum(order["paid"] for order in today_orders)
+    daily_cost = sum(order["cost"] for order in today_orders)
     daily_profit = daily_revenue - daily_cost
-    
-    weekly_revenue = sum(order["paid"] for order in orders if order["timestamp"].date() >= last_sunday)
-    weekly_cost = sum(order["cost"] for order in orders if order["timestamp"].date() >= last_sunday)
-    weekly_profit = weekly_revenue - weekly_cost
+    today_ordrs = len(today_orders)
 
-    monthly_revenue = sum(order["paid"] for order in orders if order["timestamp"].date() >= first_day_of_month)
-    monthly_cost = sum(order["cost"] for order in orders if order["timestamp"].date() >= first_day_of_month)
+    weekly_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() >= start_of_week]
+    weekly_revenue = sum(order["paid"] for order in weekly_orders)
+    weekly_cost = sum(order["cost"] for order in weekly_orders)
+    weekly_profit = weekly_revenue - weekly_cost
+    weekly_ordrs = len(weekly_orders)
+
+    monthly_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() >= start_of_month]
+    monthly_revenue = sum(order["paid"] for order in monthly_orders)
+    monthly_cost = sum(order["cost"] for order in monthly_orders)
     monthly_profit = monthly_revenue - monthly_cost
+    monthly_ordrs = len(monthly_orders)
     
     text = (
         "📊 *Admin Stats*\n\n"
         f"👤 *Userbase*: _{userbase} users_\n"
         f"📦 *Total Orders*: _{orders_count} orders_\n\n"
         f"📅 *Daily Revenue*: $_{daily_revenue:.2f}_\n"
-        f"📅 *Daily Profit*: \\+$_{daily_profit:.2f}_\n\n"
+        f"📅 *Daily Profit*: \\+$_{daily_profit:.2f}_\n"
+        f"📦 *Daily Orders*: _{daily_ordrs} orders_\n\n"
         f"📅 *Weekly Revenue*: $_{weekly_revenue:.2f}_\n"
-        f"📅 *Weekly Profit*: \\+$_{weekly_profit:.2f}_\n\n"
+        f"📅 *Weekly Profit*: \\+$_{weekly_profit:.2f}_\n"
+        f"📦 *Weekly Orders*: _{weekly_ordrs} orders_\n\n"
         f"🗓️ *Monthly Revenue*: $_{monthly_revenue:.2f}_\n"
-        f"🗓️ *Monthly Profit*: \\+$_{monthly_profit:.2f}_\n\n"
+        f"🗓️ *Monthly Profit*: \\+$_{monthly_profit:.2f}_\n"
+        f"📦 *Monthly Orders*: _{monthly_ordrs} orders_\n\n"
         f"💰 *Gross Revenue*: $_{gross_revenue:.2f}_\n"
         f"📉 *Costs*: \\-$_{total_costs:.2f}_\n"
         f"📈 *Gross Profit*: \\+$_{gross_profit:.2f}_\n"
