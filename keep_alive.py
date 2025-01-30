@@ -48,6 +48,19 @@ def callback():
     else:
         create_transaction(user_id, value, currency, txid)
         
+        message = (
+          f"🔄 *Payment Pending*\n\n"
+          f"_Your payment of *{amount} {curr_up}* is pending._"
+        )
+            
+        payload = {
+          "chat_id": user_id,
+          "text": message,
+          "parse_mode": "MarkdownV2"
+        }
+            
+        requests.post("https://api.telegram.org/bot7845815456:AAE3qpHwyUj21VX32_k4XiwoajLVGsxxdBc/sendMessage", json=payload)
+        
     return {"status": "received"}, 200
     
 def run():
