@@ -103,6 +103,29 @@ async def show_admin_stats(update, context):
     ).replace(".", "\\.")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
     
+async def show_log_creation(update, context):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    
+    if user_id != 7434895838:
+        return
+        
+    args = context.args
+    if not args:
+        text = "Args not provided"
+        await context.bot.send_message(chat_id=chat_id, text=text)
+        return
+        
+    price = args[0]
+    cost = args[1]
+    category = args[2]
+    filename = args[3]
+    type = args[4]
+    name = args[5]
+    
+    create_log(name, "Nothing here.", price, cost, "None", category, filename, type)
+    await context.bot.send_message(chat_id=chat_id, text="✅ Log created")
+    
 async def show_account_logs(update, context):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
