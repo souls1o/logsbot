@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, request
 from threading import Thread
+from helpers import get_price
 from db import get_user, update_user, get_transaction, create_transaction, update_transaction, get_all_transactions
 
 app = Flask(__name__)
@@ -34,9 +35,11 @@ def callback():
             transaction["status"] = "confirmed"
             update_transaction(transaction["transaction_id"], transaction)
             
+            usd_amount = amount * get_price(currency)
+            
             message = (
               f"✅ *Payment Confirmed*\n\n"
-              f"_Your payment of *{amount} {curr_up}* has successfully confirmed._"
+              f"_Your payment of $*{usd_amount:.2f}* has successfully confirmed._"
             ).replace(".", "\\.")
             
             payload = {
