@@ -68,7 +68,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for log_id, count in log_counts.items():
             log = get_log(log_id)
             if len(log["logs"]) < count:
-                await query.answer(f"❌ Not enough logs available for {log_id}! Required: {count}, Available: {len(log['logs'])}", show_alert=True)
+                await query.answer(f"❌ Not enough logs available for {product} {name}! Available: {len(log['logs'])}", show_alert=True)
                 return
                         
         btc_balance = user["balances"].get("btc")
@@ -82,7 +82,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         total_usd = btc_usd + ltc_usd
         
         if total_usd < cost:
-            await query.answer("❌ Insufficient balance", show_alert=True)
+            await query.answer("❌ Insufficient balance!", show_alert=True)
             await show_deposit(update, context)
             return
             
