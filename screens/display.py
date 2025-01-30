@@ -112,7 +112,7 @@ async def show_log_creation(update, context):
         
     args = context.args
     if not args:
-        text = "Args not provided"
+        text = "Usage: /create_log <price> <cost> <category> <filename> <type> <name>"
         await context.bot.send_message(chat_id=chat_id, text=text)
         return
         
@@ -287,7 +287,7 @@ async def show_cart(update, context):
     reply_markup = create_cart_keyboard()
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
-async def show_orders(update, context):
+async def show_orders(update, context, page=1):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
     message_id = context.user_data["message_id"]
@@ -295,9 +295,19 @@ async def show_orders(update, context):
     user = get_user(user_id)
     orders = user["orders"]
     order_count = len(orders)
+    
+    ORDERS_PER_PAGE = 5
+    total_pages = max(1, (order_count + ORDERS_PER_PAGE - 1) // ORDERS_PER_PAGE)
+
+    page = max(1, min(page, total_pages))
+
+    start_idx = (page - 1) * ORDERS_PER_PAGE
+    end_idx = start_idx + ORDERS_PER_PAGE
+    orders_to_display = orders[start_idx:end_idx]
+    
     order_texts = []
     
-    for i, order_id in enumerate(orders, start=1):
+    for i, order_id in enumerate(orders_to_display, start=start_idx+1):
         order = get_order(order_id)
         
         order_id = order["order_id"]
@@ -342,7 +352,7 @@ async def show_orders(update, context):
     orders_text = "\n\n".join(order_texts)
     text = escape_markdown(f"📦 *Order History*\n\n{orders_text if orders else no_orders}\n\n📦 *Total Orders:* {order_count}")
     
-    reply_markup = create_orders_keyboard(orders)
+    reply_markup = create_orders_keyboard(orders_to_display, page, total_pages)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
 async def show_order(update, context, order_id):
