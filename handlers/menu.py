@@ -2,7 +2,7 @@ import requests
 from telegram import Update
 from telegram.ext import CallbackQueryHandler, ContextTypes
 from db import get_user, update_user, get_log, update_log, create_order
-from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options, show_logs_file, show_deposit, show_deposit_addr, show_option, show_cart, show_pending
+from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options, show_logs_file, show_deposit, show_deposit_addr, show_option, show_cart
 from helpers import get_price
 
 async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -84,7 +84,8 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         total_usd = btc_usd + ltc_usd
         
         if total_usd < cost:
-            await show_pending(update, context)
+            await query.answer("❌ Insufficient balance", show_alert=True)
+            await show_deposit(update, context)
             return
             
         half_cost = cost / 2
