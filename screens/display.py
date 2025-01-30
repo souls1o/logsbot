@@ -1,5 +1,6 @@
 import re
 import asyncio
+from datetime import datetime, timedelta
 from collections import defaultdict
 from helpers import escape_markdown, get_emoji, get_product, generate_address
 from db import create_user, update_user, get_all_users, get_user, create_log, get_log, get_all_logs, create_order, get_order, get_all_orders
@@ -36,6 +37,56 @@ async def show_menu(update, context):
     reply_markup = create_menu_keyboard(logs_count, 0)
     text = "🚀 *Main Menu\n\nWhich type of logs would you like to purchase*❓"
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
+    
+async def show_admin_stats(update, context):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    
+    if user_id != 7434895838:
+        return
+        
+    users = get_all_users()
+    orders = get_all_orders()
+        
+    userbase = len(users)
+    orders_count = len(orders)
+    gross_revenue = sum(order["paid"] for order in orders)
+    total_costs = sum(order["cost"] for order in orders)
+    gross_profit = gross_revenue - costs
+    
+    today = datetime.utcnow().date()
+    days_since_sunday = today.weekday() + 1
+    last_sunday = today - timedelta(days=days_since_sunday % 7)
+
+    first_day_of_month = today.replace(day=1)
+    
+    daily_revenue = sum(order["paid"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() == today)
+    daily_cost = sum(order["cost"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() == today)
+    daily_profit = daily_revenue - daily_cost
+    
+    weekly_revenue = sum(order["paid"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= last_sunday)
+    weekly_cost = sum(order["cost"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= last_sunday)
+    weekly_profit = weekly_revenue - weekly_cost
+
+    monthly_revenue = sum(order["paid"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= first_day_of_month)
+    monthly_cost = sum(order["cost"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= first_day_of_month)
+    monthly_profit = monthly_revenue - monthly_cost
+    
+    text = (
+        "📊 *Admin Stats*\n\n"
+        f"👤 *Userbase*: _{userbase} users_\n"
+        f"📦 *Total Orders*: _{orders_count} orders_\n\n"
+        f"📅 *Daily Revenue*: $_{daily_revenue:.2f}_\n"
+        f"📅 *Daily Profit*: +$_{daily_profit:.2f}_\n\n"
+        f"📅 *Weekly Revenue*: $_{weekly_revenue:.2f}_\n"
+        f"📅 *Weekly Profit*: +$_{weekly_profit:.2f}_\n\n"
+        f"🗓️ *Monthly Revenue*: $_{monthly_revenue:.2f}_\n"
+        f"🗓️ *Monthly Profit*: +$_{monthly_profit:.2f}_\n\n"
+        f"💰 *Gross Revenue*: $_{gross_revenue:.2f}_\n"
+        f"📉 *Costs*: -$_{total_costs:.2f}_\n"
+        f"📈 *Gross Profit*: +$_{gross_profit:.2f}_\n"
+    ).replace(".", "\\.")
+    await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
     
 async def show_account_logs(update, context):
     chat_id = update.effective_chat.id
@@ -202,14 +253,13 @@ async def show_orders(update, context):
         order = get_order(order_id)
         
         order_id = order["order_id"]
+        paid = order["paid"]
         logs = order["info"]["log_ids"]
         timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
-        cost = 0.00
         
         log_infos = {}
         for log_id in logs:
             log = get_log(log_id)
-            cost += log["price"]
             if log_id not in log_infos:
                 log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
             else:
@@ -234,7 +284,7 @@ async def show_orders(update, context):
             logs_display = "\n".join(log_texts)
             
         order_text = (
-            f"[*_{i}_*] *{order_id} — $_{cost:.2f}_*\n"
+            f"[*_{i}_*] *{order_id} — $_{paid:.2f}_*\n"
             f"{logs_display}\n"
             f"> *[* 🕐 _{timestamp}_ *]*"
         )
