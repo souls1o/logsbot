@@ -30,7 +30,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_options(update, context, product)
     elif query.data.startswith("orders_page_"):
         page = int(query.data.split("_")[-1])
-        await show_orders(update, context page)
+        await show_orders(update, context, page)
     elif query.data.startswith("order_"):
         order_id = query.data.split("_", 1)[1]
         await show_order(update, context, order_id)
