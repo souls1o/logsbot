@@ -212,8 +212,18 @@ async def show_account(update, context):
     
     order_count = len(orders)
     
+    btc_balance = user["balances"].get("btc")
+    ltc_balance = user["balances"].get("ltc")
+        
+    btc_price = get_price("btc")
+    ltc_price = get_price("ltc")
+        
+    btc_usd = btc_balance * btc_price if btc_balance else 0
+    ltc_usd = ltc_balance * ltc_price if ltc_balance else 0
+    balance = btc_usd + ltc_usd
+    
     reply_markup = create_account_keyboard()
-    text = f"👤 *Account*\n\n> 🛒 *Total Spent:* $_{spent:.2f}_\n> 📦 *Total Orders:* _{order_count}_".replace(".", "\\.")
+    text = f"👤 *Account*\n\n💵 *Balance:* $_{balance:.2f}_\n🛒 *Total Spent:* $_{spent:.2f}_\n📦 *Total Orders:* _{order_count}_".replace(".", "\\.")
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
 async def show_cart(update, context):
