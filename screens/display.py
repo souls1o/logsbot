@@ -178,6 +178,7 @@ async def show_option(update, context, option):
     message_id = context.user_data["message_id"]
     
     log = get_log(option)
+    stock = len(log["logs"])
     emoji = get_emoji(log["category"])
     product = escape_markdown(log["product"]).replace(">", "\\>")
     product_data = re.sub(r'[^A-Za-z]', '', log["product"]).lower()
@@ -190,7 +191,7 @@ async def show_option(update, context, option):
     count = cart.count(option)
     
     reply_markup = create_option_keyboard(product_data, option, price, count)
-    text = f"{emoji} *{product}* \\| _{name}_\n\n❔*Description:*\n{desc}"
+    text = f"{emoji} *{product}* \\| _{name}_\n\nStock: *{stock}*\n\n❔*Description:*\n{desc}"
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
 async def show_account(update, context):
@@ -262,14 +263,6 @@ async def show_cart(update, context):
     
     reply_markup = create_cart_keyboard()
     await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup)
-
-async def show_pending(update, context):
-    chat_id = update.effective_chat.id
-    user_id = update.effective_user.id
-    message_id = context.user_data["message_id"]
-    
-    text = "Pending order"
-    await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode)
     
 async def show_orders(update, context):
     chat_id = update.effective_chat.id
