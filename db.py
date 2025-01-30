@@ -42,12 +42,13 @@ def create_user(user_id):
     except Exception as e:
         print(f"[-] Failed to create user: {e}")
         
-def create_log(name, price, cost, product, category, type):
+def create_log(name, desc, price, cost, product, category, type):
     log_id = generate_id(6)
     
     log_data = {
         "log_id": log_id,
         "name": name,
+        "desc": desc,
         "price": price,
         "cost": cost,
         "product": product,
@@ -62,10 +63,11 @@ def create_log(name, price, cost, product, category, type):
     except Exception as e:
         print(f"[-] Failed to create log: {e}")
 
-def create_order(user_id, paid, log_ids, logs):
+def create_order(user_id, paid, cost, log_ids, logs):
     order_data = {
         "order_id": generate_id(8),
         "paid": paid,
+        "cost": cost,
         "info": {
             "user_id": user_id,
             "log_ids": log_ids,
