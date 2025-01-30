@@ -47,7 +47,7 @@ def create_account_keyboard():
 def create_deposit_keyboard():
     keyboard = [
         [InlineKeyboardButton("BTC", callback_data="deposit_btc")],
-        [InlineKeyboardButton("ETH", callback_data="deposit_eth")],
+        # [InlineKeyboardButton("ETH", callback_data="deposit_eth")],
         [InlineKeyboardButton("LTC", callback_data="deposit_ltc")],
         [InlineKeyboardButton("⬅️ Back", callback_data="account")]
     ]
