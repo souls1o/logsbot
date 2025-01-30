@@ -37,7 +37,7 @@ def callback():
             message = (
               f"✅ *Payment Confirmed*\n\n"
               f"_Your payment of *{amount} {curr_up}* has successfully confirmed._"
-            )
+            ).replace(".", "\\.")
             
             payload = {
               "chat_id": user_id,
@@ -52,7 +52,7 @@ def callback():
         message = (
           f"🔄 *Payment Pending*\n\n"
           f"_Your payment of *{amount} {curr_up}* is pending._"
-        )
+        ).replace(".", "\\.")
             
         payload = {
           "chat_id": user_id,
