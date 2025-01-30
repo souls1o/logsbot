@@ -60,16 +60,16 @@ async def show_admin_stats(update, context):
 
     first_day_of_month = today.replace(day=1)
     
-    daily_revenue = sum(order["paid"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() == today)
-    daily_cost = sum(order["cost"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() == today)
+    daily_revenue = sum(order["paid"] for order in orders if order["timestamp"].date() == today)
+    daily_cost = sum(order["cost"] for order in orders if order["timestamp"].date() == today)
     daily_profit = daily_revenue - daily_cost
     
-    weekly_revenue = sum(order["paid"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= last_sunday)
-    weekly_cost = sum(order["cost"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= last_sunday)
+    weekly_revenue = sum(order["paid"] for order in orders if order["timestamp"].date() >= last_sunday)
+    weekly_cost = sum(order["cost"] for order in orders if order["timestamp"].date() >= last_sunday)
     weekly_profit = weekly_revenue - weekly_cost
 
-    monthly_revenue = sum(order["paid"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= first_day_of_month)
-    monthly_cost = sum(order["cost"] for order in orders if datetime.strptime(order["timestamp"], "%Y-%m-%d").date() >= first_day_of_month)
+    monthly_revenue = sum(order["paid"] for order in orders if order["timestamp"].date() >= first_day_of_month)
+    monthly_cost = sum(order["cost"] for order in orders if order["timestamp"].date() >= first_day_of_month)
     monthly_profit = monthly_revenue - monthly_cost
     
     text = (
