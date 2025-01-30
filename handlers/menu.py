@@ -60,7 +60,12 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         spent = 0.00
         log_counts = {}
         
-        for log_id in user["cart"]:
+        cart = user["cart"]
+        if not cart:
+            await query.answer("⚠️ Cart is empty!", show_alert=True)
+            return
+        
+        for log_id in cart:
             log = get_log(log_id)
             log_counts[log_id] = log_counts.get(log_id, 0) + 1
             cost += log["price"]
@@ -104,7 +109,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         log_values = []
         
-        for log_id in user["cart"]:
+        for log_id in cart:
             log = get_log(log_id)
             spent += log["cost"]
             value = log["logs"].pop(0)
