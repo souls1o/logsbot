@@ -206,7 +206,7 @@ async def show_option(update, context, option):
     product = log["product"].replace(">", "\\>")
     product_data = re.sub(r'[^A-Za-z]', '', log["product"]).lower()
     name = log["name"]
-    desc = log["desc"]
+    desc = log["desc"].replace("\n", "\n")
     price = log["price"]
     
     user = get_user(user_id)
