@@ -55,6 +55,8 @@ async def show_admin_stats(update, context):
     total_costs = sum(order["cost"] for order in orders)
     gross_profit = gross_revenue - total_costs
     
+    profit_margin = (gross_profit / gross_revenue) * 100 if gross_revenue > 0 else 0
+    
     tz = pytz.timezone("America/Los_Angeles")
     now = datetime.now(tz).date()
     
@@ -94,9 +96,10 @@ async def show_admin_stats(update, context):
         f"🗓️ *Monthly Revenue*: $_{monthly_revenue:.2f}_\n"
         f"🗓️ *Monthly Profit*: \\+$_{monthly_profit:.2f}_\n"
         f"📦 *Monthly Orders*: _{monthly_ordrs} orders_\n\n"
-        f"💰 *Gross Revenue*: $_{gross_revenue:.2f}_\n"
+        f"💰 *Revenue*: $_{gross_revenue:.2f}_\n"
         f"📉 *Costs*: \\-$_{total_costs:.2f}_\n"
-        f"📈 *Gross Profit*: \\+$_{gross_profit:.2f}_\n"
+        f"📈 *Profit*: \\+$_{gross_profit:.2f}_\n"
+        f"📊 *Profit Margin*: _{profit_margin:.2f}_%"
     ).replace(".", "\\.")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
     
