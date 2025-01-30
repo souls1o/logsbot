@@ -83,7 +83,7 @@ async def show_admin_stats(update, context):
         f"🗓️ *Monthly Revenue*: $_{monthly_revenue:.2f}_\n"
         f"🗓️ *Monthly Profit*: \\+$_{monthly_profit:.2f}_\n\n"
         f"💰 *Gross Revenue*: $_{gross_revenue:.2f}_\n"
-        f"📉 *Costs*: -$_{total_costs:.2f}_\n"
+        f"📉 *Costs*: \\-$_{total_costs:.2f}_\n"
         f"📈 *Gross Profit*: \\+$_{gross_profit:.2f}_\n"
     ).replace(".", "\\.")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
