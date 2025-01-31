@@ -19,7 +19,21 @@ async def show_main_menu(update, context):
     
     user = get_user(user_id)
     if not user:
-        create_user(user_id)
+        url = "https://api.nowpayments.io/v1/sub-partner/balance"
+        headers = {
+            "Authorization": "Bearer E6FKV00-84V4N0R-MWV49DE-V6QGMPF",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "name": f"{user_id}"
+        }
+        
+        response = requests.post(url, headers=headers, json=data)
+        data = response.json()
+        
+        account_id = data["result"]["id"]
+        
+        create_user(user_id, account_id)
     
     if context.user_data.get("message_id"):
         await context.bot.edit_message_text(chat_id=chat_id, message_id=context.user_data["message_id"], text=text, parse_mode=parse_mode, reply_markup=reply_markup, disable_web_page_preview=True)
