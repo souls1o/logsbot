@@ -58,9 +58,10 @@ def generate_address(user_id, ticker):
         data = res.json()
         return data["address"]
         
-def get_price(crypto: str):
-    """Fetch the current USD price for BTC or LTC."""
-    url = f"https://apirone.com/api/v2/ticker?currency={crypto}&fiat=usd"
+def get_prices():
+    """Fetch the current USD price for BTC and LTC."""
+    url = f"https://api.coincap.io/v2/assets?ids=bitcoin,litecoin"
     response = requests.get(url)
-    data = response.json()
-    return data.get("usd", 0)
+    data = response.json()["data"]
+    
+    return data[0]["priceUsd"], data[1]["priceUsd"]
