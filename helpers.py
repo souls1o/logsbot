@@ -64,4 +64,4 @@ def get_prices():
     response = requests.get(url)
     data = response.json()["data"]
     
-    return data[0]["priceUsd"], data[1]["priceUsd"]
+    return float(data[0]["priceUsd"]), float(data[1]["priceUsd"])
