@@ -253,8 +253,7 @@ async def show_account(update, context):
     btc_balance = user["balances"].get("btc")
     ltc_balance = user["balances"].get("ltc")
         
-    btc_price = get_price("btc")
-    ltc_price = get_price("ltc")
+    btc_price, ltc_price, = get_prices()
         
     btc_usd = btc_balance * btc_price if btc_balance else 0
     ltc_usd = ltc_balance * ltc_price if ltc_balance else 0
