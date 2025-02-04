@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, request
 from threading import Thread
-from helpers import get_price
+from helpers import get_prices
 from db import get_user, update_user, get_transaction, create_transaction, update_transaction, get_all_transactions
 
 app = Flask(__name__)
@@ -35,7 +35,8 @@ def callback():
             transaction["status"] = "confirmed"
             update_transaction(transaction["transaction_id"], transaction)
             
-            usd_amount = amount * get_price(currency)
+            btc_price, ltc_price = get_prices()
+            usd_amount = amount * ltc_price
             
             message = (
               f"✅ *Payment Confirmed*\n\n"
