@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import CallbackQueryHandler, ContextTypes
 from db import get_user, update_user, get_log, update_log, create_order
 from screens.display import show_main_menu, show_menu, show_account, show_orders, show_order, show_account_logs, show_options, show_logs_file, show_deposit, show_deposit_addr, show_option, show_cart
-from helpers import get_price
+from helpers import get_prices
 
 async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -84,8 +84,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         btc_balance = user["balances"].get("btc")
         ltc_balance = user["balances"].get("ltc")
         
-        btc_price = get_price("btc")
-        ltc_price = get_price("ltc")
+        btc_price, ltc_price = get_prices()
         
         btc_usd = btc_balance * btc_price if btc_balance else 0
         ltc_usd = ltc_balance * ltc_price if ltc_balance else 0
