@@ -36,7 +36,7 @@ def callback():
             update_transaction(transaction["transaction_id"], transaction)
             
             btc_price, ltc_price = get_prices()
-            usd_amount = amount * ltc_price
+            usd_amount = amount * (ltc_price if currency == "ltc" else btc_price)
             
             message = (
               f"✅ *Payment Confirmed*\n\n"
