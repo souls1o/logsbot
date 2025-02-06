@@ -71,7 +71,7 @@ async def show_admin_stats(update, context):
     gross_profit = gross_revenue - (inv_cost + rep_cost)
     
     coms_cost = sum(user["commission"] for user in users)
-    net_profit = gross_profit - coms_cos
+    net_profit = gross_profit - coms_cost
     
     costs = inv_cost + rep_cost + coms_cost
     
