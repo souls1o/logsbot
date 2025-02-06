@@ -31,6 +31,7 @@ def create_user(user_id):
             "btc": 0.00,
             "ltc": 0.00
         },
+        "commission": 0.00,
         "transactions": [],
         "cart": [],
         "orders": [],
@@ -69,6 +70,7 @@ def create_order(user_id, paid, cost, log_ids, logs):
         "order_id": generate_id(8),
         "paid": paid,
         "cost": cost,
+        "costs": 0.00,
         "info": {
             "user_id": user_id,
             "log_ids": log_ids,
