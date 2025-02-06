@@ -22,7 +22,7 @@ async def handle_document(update: Update, context: CallbackContext) -> None:
         stock = len(log["logs"])
 
         text = escape_markdown(f"*{product} | {name}* stock has been updated.\n\nStock: _{stock}_")
-        chat_id = -1002487007307
+        chat_id = "@CrucifyStockUpdates"
         await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="MarkdownV2")
 
         context.bot_data["awaiting_file"] = False
