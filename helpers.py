@@ -62,6 +62,7 @@ def generate_address(user_id, ticker):
 def get_prices():
     """Fetch the current USD price for BTC and LTC."""
     url = f"https://api.coincap.io/v2/assets?ids=bitcoin,litecoin"
+    headers = { "Authorization": "Bearer 2123650e-a596-4647-85af-ec374e18af35" }
     response = requests.get(url)
     data = response.json()["data"]
     
