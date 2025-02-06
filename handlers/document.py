@@ -1,0 +1,29 @@
+from telegram import Update
+from telegram.ext import MessageHandler, CallbackContext
+from telegram.ext.filters import Document
+from db import get_log, update_log
+
+async def handle_document(update: Update, context: CallbackContext) -> None:
+    if context.bot_data.get("awaiting_file") is not True:
+    return
+
+    document = update.message.document
+    if document:
+        file = await document.get_file()
+        file_path = await file.download_as_bytearray()
+        logs = file_path.decode("utf-8").strip().split("\n")
+
+        log = get_log(context.bot_data["log_id"])
+        log["logs"].extend(logs)
+        update_log(context.bot_data["log_id"],
+log)
+
+        text = escape_markdown(f"*{product} | {name}* stock has been updated.\n\nStock: _{stock}_")
+        chat_id = -1002487007307
+        await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="MarkdownV2")
+
+        context.bot_data["awaiting_file"] = False
+        await context.bot.reply_text("Successfully updated stock")
+
+def get_handler():
+    return MessageHandler(Document, handle_document)
