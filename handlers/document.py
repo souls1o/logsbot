@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import MessageHandler, CallbackContext
 from telegram.ext.filters import Document
 from db import get_log, update_log
+from helpers import escape_markdown
 
 async def handle_document(update: Update, context: CallbackContext) -> None:
     if context.bot_data.get("awaiting_file") is not True:
