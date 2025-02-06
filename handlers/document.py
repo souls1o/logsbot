@@ -1,6 +1,5 @@
 from telegram import Update
-from telegram.ext import MessageHandler, CallbackContext
-from telegram.ext.filters import Document as DocFilter
+from telegram.ext import MessageHandler, CallbackContext, filters
 from db import get_log, update_log
 from helpers import escape_markdown
 
@@ -31,4 +30,4 @@ log)
         await update.message.reply_text("Successfully updated stock")
 
 def get_handler():
-    return MessageHandler(DocFilter.FILE_EXTENSION("txt"), handle_document)
+    return MessageHandler(filters.Document, handle_document)
