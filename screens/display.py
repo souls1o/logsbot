@@ -137,7 +137,7 @@ async def show_log_creation(update, context):
     type = args[4]
     name = args[5]
     
-    create_log(name, "Nothing here.", price, cost, "None", category, filename, type)
+    create_log(name, "Nothing here.", float(price), float(cost), "None", category, filename, type)
     await context.bot.send_message(chat_id=chat_id, text="✅ Log created")
     
 async def show_account_logs(update, context):
