@@ -6,7 +6,7 @@ from helpers import escape_markdown
 
 async def handle_document(update: Update, context: CallbackContext) -> None:
     if context.bot_data.get("awaiting_file") is not True:
-    return
+        return
 
     document = update.message.document
     if document:
