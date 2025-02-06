@@ -66,8 +66,14 @@ async def show_admin_stats(update, context):
     userbase = len(users)
     orders_count = len(orders)
     gross_revenue = sum(order["paid"] for order in orders)
-    total_costs = sum(order["cost"] for order in orders)
-    gross_profit = gross_revenue - total_costs
+    inv_cost = sum(order["cost"] for order in orders)
+    rep_cost = sum(order["costs"] for order in orders)
+    gross_profit = gross_revenue - (inv_cost + rep_cost)
+    
+    coms_cost = sum(user["commission"] for user in users)
+    net_profit = gross_profit - coms_cos
+    
+    costs = inv_cost + rep_cost + coms_cost
     
     profit_margin = (gross_profit / gross_revenue) * 100 if gross_revenue > 0 else 0
     
@@ -110,9 +116,13 @@ async def show_admin_stats(update, context):
         f"🗓️ *Monthly Revenue*: $_{monthly_revenue:.2f}_\n"
         f"🗓️ *Monthly Profit*: \\+$_{monthly_profit:.2f}_\n"
         f"📦 *Monthly Orders*: _{monthly_ordrs} orders_\n\n"
-        f"💰 *Revenue*: $_{gross_revenue:.2f}_\n"
-        f"📉 *Costs*: \\-$_{total_costs:.2f}_\n"
-        f"📈 *Profit*: \\+$_{gross_profit:.2f}_\n"
+        f"📈 *Gross Revenue*: $_{gross_revenue:.2f}_\n"
+        f"📈 *Gross Profit*: $_{gross_profit:.2f}_\n"
+        f"📉 *Replacement Costs*: \\-$_{rep_cost:.2f}_\n"
+        f"📉 *Referral Costs*: \\-$_{coms_cost:.2f}_\n"
+        f"📉 *Total Costs*: \\-$_{costs:.2f}_\n"
+        f"📈 *Net Revenue*: $_{gross_revenue:.2f}_\n"
+        f"📈 *Net Profit*: \\+$_{net_profit:.2f}_\n"
         f"📊 *Profit Margin*: _{profit_margin:.2f}_%"
     ).replace(".", "\\.")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
