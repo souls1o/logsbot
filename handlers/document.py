@@ -19,6 +19,10 @@ async def handle_document(update: Update, context: CallbackContext) -> None:
         update_log(context.bot_data["log_id"],
 log)
 
+        product = log["product"]
+        name = log["name"]
+        stock = len(log["logs"])
+
         text = escape_markdown(f"*{product} | {name}* stock has been updated.\n\nStock: _{stock}_")
         chat_id = -1002487007307
         await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="MarkdownV2")
