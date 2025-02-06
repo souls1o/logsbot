@@ -40,7 +40,7 @@ def callback():
             
             message = (
               f"✅ *Payment Confirmed*\n\n"
-              f"_Your payment of $*{usd_amount:.2f}* has successfully confirmed._"
+              f"_Your payment of $*{usd_amount:.2f}* (*{amount} {curr_up}*) has successfully confirmed._"
             ).replace(".", "\\.")
             
             payload = {
@@ -53,9 +53,12 @@ def callback():
     else:
         create_transaction(user_id, value, currency, txid)
         
+        btc_price, ltc_price = get_prices()
+        usd_amount = amount * (ltc_price if currency == "ltc" else btc_price)
+        
         message = (
           f"🔄 *Payment Pending*\n\n"
-          f"_Your payment of *{amount} {curr_up}* is pending._"
+          f"_Your payment of $*{usd_amount:.2f}* (*{amount} {curr_up}*) is pending._"
         ).replace(".", "\\.")
             
         payload = {
