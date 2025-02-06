@@ -3,10 +3,6 @@ from telegram.ext import MessageHandler, CallbackContext, filters
 from db import get_log, update_log
 from helpers import escape_markdown
 
-def is_txt_document(update: Update):
-    document = update.message.document
-    return document and document.file_name.endswith(".txt")
-
 async def handle_document(update: Update, context: CallbackContext) -> None:
     if context.bot_data.get("awaiting_file") is not True:
         return
@@ -19,8 +15,7 @@ async def handle_document(update: Update, context: CallbackContext) -> None:
 
         log = get_log(context.bot_data["log_id"])
         log["logs"].extend(logs)
-        update_log(context.bot_data["log_id"],
-log)
+        update_log(context.bot_data["log_id"], log)
 
         product = log["product"]
         name = log["name"]
@@ -34,4 +29,4 @@ log)
         await update.message.reply_text("Successfully updated stock")
 
 def get_handler():
-    return MessageHandler(is_txt_document, handle_document)
+    return MessageHandler(filters.ATTACHMENT, handle_document)
