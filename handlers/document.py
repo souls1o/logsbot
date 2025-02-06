@@ -31,4 +31,4 @@ log)
         await update.message.reply_text("Successfully updated stock")
 
 def get_handler():
-    return MessageHandler(Document, handle_document)
+    return MessageHandler(Document.FILE_EXTENSION("txt"), handle_document)
