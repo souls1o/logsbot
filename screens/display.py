@@ -108,23 +108,23 @@ async def show_admin_stats(update, context):
         f"👤 *Userbase*: _{userbase} users_\n"
         f"📦 *Total Orders*: _{orders_count} orders_\n\n"
         f"📅 *Daily Revenue*: $_{daily_revenue:.2f}_\n"
-        f"📅 *Daily Profit*: \\+$_{daily_profit:.2f}_\n"
+        f"📅 *Daily Profit*: +$_{daily_profit:.2f}_\n"
         f"📦 *Daily Orders*: _{daily_ordrs} orders_\n\n"
         f"📅 *Weekly Revenue*: $_{weekly_revenue:.2f}_\n"
-        f"📅 *Weekly Profit*: \\+$_{weekly_profit:.2f}_\n"
+        f"📅 *Weekly Profit*: +$_{weekly_profit:.2f}_\n"
         f"📦 *Weekly Orders*: _{weekly_ordrs} orders_\n\n"
         f"🗓️ *Monthly Revenue*: $_{monthly_revenue:.2f}_\n"
-        f"🗓️ *Monthly Profit*: \\+$_{monthly_profit:.2f}_\n"
+        f"🗓️ *Monthly Profit*: +$_{monthly_profit:.2f}_\n"
         f"📦 *Monthly Orders*: _{monthly_ordrs} orders_\n\n"
         f"📈 *Gross Revenue*: $_{gross_revenue:.2f}_\n"
         f"📈 *Gross Profit*: $_{gross_profit:.2f}_\n"
-        f"📉 *Replacement Costs*: \\-$_{rep_cost:.2f}_\n"
-        f"📉 *Referral Costs*: \\-$_{coms_cost:.2f}_\n"
-        f"📉 *Total Costs*: \\-$_{costs:.2f}_\n"
+        f"📉 *Replacement Costs*: $_{rep_cost:.2f}_\n"
+        f"📉 *Referral Costs*: $_{coms_cost:.2f}_\n"
+        f"📉 *Total Costs*: -$_{costs:.2f}_\n"
         f"📈 *Net Revenue*: $_{gross_revenue:.2f}_\n"
-        f"📈 *Net Profit*: \\+$_{net_profit:.2f}_\n"
+        f"📈 *Net Profit*: +$_{net_profit:.2f}_\n"
         f"📊 *Profit Margin*: _{profit_margin:.2f}_%"
-    ).replace(".", "\\.")
+    ).replace(".", "\\.").replace("-", "\\-").replace("+", "\\+")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
     
 async def show_log_creation(update, context):
