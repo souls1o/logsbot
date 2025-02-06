@@ -28,7 +28,7 @@ log)
         await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="MarkdownV2")
 
         context.bot_data["awaiting_file"] = False
-        await context.bot.reply_text("Successfully updated stock")
+        await update.message.reply_text("Successfully updated stock")
 
 def get_handler():
     return MessageHandler(Document, handle_document)
