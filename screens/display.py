@@ -144,9 +144,9 @@ async def show_ref_stats(update, context):
     text = (
         "👤 *Referral Stats*\n\n"
         f"👥 *Referred:* {referred} users\n\n"
-        f"*BTC Earnings:* $*{btc_usd}* \\(_{btc} BTC_\\)\n"
-        f"*LTC Earnings:* $*{btc_usd}* \\(_{btc} BTC_\\)\n"
-    )
+        f"*BTC Earnings:* $*{btc_usd:.2f}* \\(_{btc} BTC_\\)\n"
+        f"*LTC Earnings:* $*{ltc_usd:.2f}* \\(_{ltc} LTC_\\)"
+    ).replace(".", "\\.")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
     
 async def show_log_creation(update, context):
