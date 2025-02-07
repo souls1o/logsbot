@@ -40,9 +40,10 @@ def create_user(user_id):
     }
     try:
         users.insert_one(user_data)
-        print(f'[+] User ')
+        return user_data
     except Exception as e:
         print(f"[-] Failed to create user: {e}")
+        return None
         
 def create_log(name, desc, price, cost, product, category, filename, type):
     log_id = generate_id(6)
@@ -62,7 +63,6 @@ def create_log(name, desc, price, cost, product, category, filename, type):
     }
     try:
         logs.insert_one(log_data)
-        print(f'[+] Log created: {log_id} ')
     except Exception as e:
         print(f"[-] Failed to create log: {e}")
 
@@ -82,10 +82,9 @@ def create_order(user_id, paid, cost, log_ids, logs):
     try:
         orders.insert_one(order_data)
         return order_data
-        print(f'[+] Order ')
     except Exception as e:
         print(f"[-] Failed to create order: {e}")
-        return Nons
+        return None
         
 def create_transaction(user_id, value, currency, txid):
     transaction_data = {
