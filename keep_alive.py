@@ -32,6 +32,12 @@ def callback():
             user["transactions"].append(transaction["transaction_id"])
             update_user(user_id, user)
             
+            if user["ref"] != 7434895838:
+              ref_user_id = user["ref"]
+              ref_user = get_user(ref_user_id)
+              ref_user["commission"][currency] += amount / 10
+              update_user(ref_user_id, ref_user)
+            
             transaction["status"] = "confirmed"
             update_transaction(transaction["transaction_id"], transaction)
             
