@@ -122,6 +122,33 @@ async def show_admin_stats(update, context):
     ).replace(".", "\\.").replace("-", "\\-").replace("+", "\\+")
     await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
     
+async def show_ref_stats(update, context):
+    chat_id = update.effective_chat.id
+    user_id = update.effective_user.id
+    
+    user = get_user(user_id)
+    btc = user["commission"]["btc"]
+    ltc = user["commission"]["ltc"]
+    
+    btc_price, ltc_price = get_prices()
+    
+    btc_usd = btc * btc_price
+    ltc_usd = ltc * ltc_price
+    referred = 0
+    
+    users = get_all_users()
+    for user in users:
+        if user["ref"] == user_id:
+            referred += 1
+    
+    text = (
+        "👤 *Referral Stats*\n\n"
+        f"👥 *Referred:* {referred} users\n\n"
+        f"*BTC Earnings:* $*{btc_usd}* \\(_{btc} BTC_\\)\n"
+        f"*LTC Earnings:* $*{btc_usd}* \\(_{btc} BTC_\\)\n"
+    )
+    await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
+    
 async def show_log_creation(update, context):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
