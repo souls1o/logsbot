@@ -12,7 +12,7 @@ parse_mode = "MarkdownV2"
 async def show_main_menu(update, context):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
-    user_name = update.effective_user.first_name
+    user_name = escape_markdown(update.effective_user.first_name)
     
     reply_markup = create_main_menu_keyboard()
     text = f"*♱ Welcome to __Crucify Logs__, _{user_name}_\\! ♱*\n\n> *ℹ️ Crucify is the \\#1 bot on the market where you can purchase HQ logs seamlessly using various cryptocurrencies such as BTC, ETH, and LTC\\. To get started, add funds from the account menu and search through our menu to find logs that fit your needs\\.*\n\n📢 *\\| t\\.me/diablosgrave*\n💬 *\\| t\\.me/fraudschemin*\n📞 *\\| @fwsouls*"
