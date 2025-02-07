@@ -69,10 +69,14 @@ def create_log(name, desc, price, cost, product, category, filename, type):
     except Exception as e:
         print(f"[-] Failed to create log: {e}")
 
-def create_order(user_id, paid, cost, log_ids, logs):
+def create_order(user_id, paid_usd, paid_btc, paid_ltc, cost, log_ids, logs):
     order_data = {
         "order_id": generate_id(8),
-        "paid": paid,
+        "paid": {
+            "usd": paid_usd,
+            "btc": paid_btc,
+            "ltc": paid_ltc
+        },
         "cost": cost,
         "costs": 0.00,
         "info": {
