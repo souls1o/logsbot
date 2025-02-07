@@ -23,7 +23,7 @@ def test_connection():
 def create_user(user_id):
     user_data = {
         "user_id": user_id,
-        "ref": 7434895838,
+        "ref": None,
         "addresses": {
             "btc": "",
             "ltc": ""
