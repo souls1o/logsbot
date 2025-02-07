@@ -4,6 +4,15 @@ from screens.display import show_main_menu
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
+    
+    if context.args:
+        user_id = update.effective_user.id
+        user = get_user(user_id)
+        if user["ref"] == None:
+            if context.args[0] == "test":
+                user["ref"] = 7434895838
+                update_user(user_id, user)
+    
     await show_main_menu(update, context)
 
 def get_handler():
