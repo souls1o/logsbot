@@ -50,12 +50,16 @@ async def show_admin_stats(update, context):
         
     userbase = len(users)
     orders_count = len(orders)
-    gross_revenue = sum(order["paid"] for order in orders)
+    gross_btc = sum(order["paid"]["btc"] for order in orders)
+    gross_ltc = sum(order["paid"]["ltc"] for order in orders)
+    gross_revenue = (gross_btc * btc_price) + (gross_ltc * ltc_price)
     inv_cost = sum(order["cost"] for order in orders)
     rep_cost = sum(order["costs"] for order in orders)
     gross_profit = gross_revenue - (inv_cost + rep_cost)
     
-    coms_cost = sum(user["commission"] for user in users)
+    coms_btc = sum(user["commission"]["btc"] for user in users)
+    coms_ltc = sum(user["commission"]["ltc"] for user in users)
+    coms_cost = (coms_btc * btc_price) + (coms_ltc * ltc_price)
     net_profit = gross_profit - coms_cost
     
     costs = inv_cost + rep_cost + coms_cost
