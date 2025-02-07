@@ -105,7 +105,12 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             
         btc_deducted = btc_used / btc_price if btc_price else 0
         ltc_deducted = ltc_used / ltc_price if ltc_price else 0
-    
+        
+        if user["ref"] != 7434895838:
+            ref_user = get_user(user["ref"])
+            ref_user["commission"]["btc"] += btc_deducted / 20
+            ref_user["commission"]["ltc"] += ltc_deducted / 20
+            
         user["balances"]["btc"] -= btc_deducted
         user["balances"]["ltc"] -= ltc_deducted
         
