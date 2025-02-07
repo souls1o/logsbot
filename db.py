@@ -32,7 +32,10 @@ def create_user(user_id):
             "btc": 0.00,
             "ltc": 0.00
         },
-        "commission": 0.00,
+        "commission": {
+            "btc": 0.00,
+            "ltc": 0.00
+        },
         "transactions": [],
         "cart": [],
         "orders": [],
