@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import CommandHandler, ContextTypes
 from screens.display import show_main_menu
-from db import get_user, update_user
+from db import get_user, update_user, create_user
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
