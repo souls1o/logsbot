@@ -31,9 +31,6 @@ async def show_menu(update, context):
     chat_id = update.effective_chat.id
     message_id = context.user_data["message_id"]
     
-    # create_log("$10-$15 Giftcard", 2.50, 1.15, "Starbucks <GC NO-PIN>", "Food", "account")
-    # create_log("$15-$20 Giftcard", 3.75, 1.15, "Starbucks <GC NO-PIN>", "Food", "account")
-    
     logs_count = sum(len(log.get("logs", [])) for log in get_all_logs())
     reply_markup = create_menu_keyboard(logs_count, 0)
     text = "🚀 *Main Menu\n\nWhich type of logs would you like to purchase*❓"
@@ -48,6 +45,8 @@ async def show_admin_stats(update, context):
         
     users = get_all_users()
     orders = get_all_orders()
+    
+    btc_price, ltc_price, = get_prices()
         
     userbase = len(users)
     orders_count = len(orders)
@@ -72,19 +71,25 @@ async def show_admin_stats(update, context):
     start_of_month = now.replace(day=1)
     
     daily_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() == now]
-    daily_revenue = sum(order["paid"] for order in daily_orders)
+    daily_btc = sum(order["paid"]["btc"] for order in daily_orders)
+    daily_ltc = sum(order["paid"]["ltc"] for order in daily_orders)
+    daily_revenue = (daily_btc * btc_price) + (daily_ltc * ltc_price)
     daily_cost = sum(order["cost"] for order in daily_orders)
     daily_profit = daily_revenue - daily_cost
     daily_ordrs = len(daily_orders)
 
     weekly_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() >= start_of_week]
-    weekly_revenue = sum(order["paid"] for order in weekly_orders)
+    weekly_btc = sum(order["paid"]["btc"] for order in weekly_orders)
+    weekly_ltc = sum(order["paid"]["ltc"] for order in weekly_orders)
+    weekly_revenue = (weekly_btc * btc_price) + (weekly_ltc * ltc_price)
     weekly_cost = sum(order["cost"] for order in weekly_orders)
     weekly_profit = weekly_revenue - weekly_cost
     weekly_ordrs = len(weekly_orders)
 
     monthly_orders = [order for order in orders if order["timestamp"].astimezone(tz).date() >= start_of_month]
-    monthly_revenue = sum(order["paid"] for order in monthly_orders)
+    monthly_btc = sum(order["paid"]["btc"] for order in monthly_orders)
+    monthly_ltc = sum(order["paid"]["ltc"] for order in monthly_orders)
+    monthly_revenue = (monthly_btc * btc_price) + (monthly_ltc * ltc_price)
     monthly_cost = sum(order["cost"] for order in monthly_orders)
     monthly_profit = monthly_revenue - monthly_cost
     monthly_ordrs = len(monthly_orders)
@@ -238,11 +243,7 @@ async def show_account(update, context):
     spent = 0.00
     for order_id in orders:
         order = get_order(order_id)
-        logs = order["info"]["log_ids"]
-        
-        for log_id in logs:
-            log = get_log(log_id)
-            spent += log["price"]
+        spent += order["paid"]["usd"]
     
     order_count = len(orders)
     
@@ -320,7 +321,7 @@ async def show_orders(update, context, page=1):
         order = get_order(order_id)
         
         order_id = order["order_id"]
-        paid = order["paid"]
+        paid = order["paid"]["usd"]
         logs = order["info"]["log_ids"]
         timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
         
@@ -370,15 +371,14 @@ async def show_order(update, context, order_id):
     message_id = context.user_data["message_id"]
     
     order = get_order(order_id)
+    paid = order["paid"]["usd"]
     logs = order["info"]["log_ids"]
     timestamp = order["timestamp"].strftime("%Y-%m-%d %H:%M")
     total = len(logs)
-    cost = 0.00
     
     log_infos = {}
     for log_id in logs:
         log = get_log(log_id)
-        cost += log["price"]
         if log_id not in log_infos:
             log_infos[log_id] = {"quantity": 0, "price": log["price"], "name": log["name"], "product": log["product"], "emoji": get_emoji(log["category"])}
         else:
@@ -398,7 +398,7 @@ async def show_order(update, context, order_id):
         
     logs_display = "\n".join(log_texts)
     
-    text = escape_markdown(f"📦 *Order #__{order_id}__\n\nℹ️ __Details:__*\n> 💲 *Cost: $_{cost:.2f}_*\n> #️⃣ *Count: __{total}__*\n> 🕐 `{timestamp}`\n\n👤 *__Logs:__*\n{logs_display}")
+    text = escape_markdown(f"📦 *Order #__{order_id}__\n\nℹ️ __Details:__*\n> 💲 *Cost: $_{paid:.2f}_*\n> #️⃣ *Count: __{total}__*\n> 🕐 `{timestamp}`\n\n👤 *__Logs:__*\n{logs_display}")
     reply_markup = create_order_keyboard(order_id)
     await context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, parse_mode=parse_mode, reply_markup=reply_markup)
     
