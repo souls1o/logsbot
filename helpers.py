@@ -20,7 +20,8 @@ def generate_id(n: int):
     
 def get_emoji(category):
     category_emojis = {
-        "Food": "🍔",
+        "Coffee": "☕️",
+        "Pizza": "🍕",
         "FA": "🔓",
         "Mail": "✉️",
         "Shopping": "🛍️"
@@ -31,6 +32,7 @@ def get_emoji(category):
 def get_product(product):
     products = {
         "hotmailfa": "Hotmail (FA)",
+        "dominos": "Dominos",
         "subway": "Subway",
         "starbucksgcnopin": "Starbucks <GC NO-PIN>",
         "starbucks": "Starbucks"
