@@ -21,7 +21,7 @@ def generate_id(n: int):
 def get_emoji(category):
     category_emojis = {
         "Coffee": "☕️",
-        "Plane": "✈️,
+        "Plane": "✈️",
         "Pizza": "🍕",
         "FA": "🔓",
         "Mail": "✉️",
