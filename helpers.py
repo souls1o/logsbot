@@ -23,6 +23,7 @@ def get_emoji(category):
         "Coffee": "☕️",
         "Plane": "✈️",
         "Pizza": "🍕",
+        "Sandwich": "🥪",
         "FA": "🔓",
         "Mail": "✉️",
         "Shopping": "🛍️"
